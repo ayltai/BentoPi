@@ -1,0 +1,7 @@
+fastapi==0.121.1
+httpx==0.28.1
+python-dotenv==1.2.1
+sentry-sdk[fastapi]==2.44.0
+sht20==0.1.4
+smbus2==0.5.0
+uvicorn==0.38.0

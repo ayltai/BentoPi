@@ -1,0 +1,56 @@
+name: CI
+on:
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - v**
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Setup Python 3
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install -e .[dev]
+        working-directory: backend
+      - name: autopep8
+        run: autopep8 -i -r src --global-config setup.cfg
+        working-directory: backend
+      - name: pycodestyle
+        run: pycodestyle src
+        working-directory: backend
+      - name: pylint
+        run: pylint --recursive=y src
+        working-directory: backend
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: pnpm i
+        working-directory: frontend
+      - name: Test
+        run: pnpm test
+        working-directory: frontend
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: coverage-report
+          path: frontend/coverage

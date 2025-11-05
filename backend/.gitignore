@@ -1,0 +1,9 @@
+# Python
+**/__pycache__/
+
+# VirtualEnv
+venv/
+
+# Generated
+web/
+*.egg-info/
