@@ -4,8 +4,12 @@
         "Weather",
         "News",
         "Disruptions",
+        "Games",
         "Security",
         "System"
+    ],
+    "games"                        : [
+        "Memory"
     ],
     "label_system_cpu_temperature" : "CPU Temperature",
     "label_system_cpu_voltage"     : "CPU Voltage",
@@ -52,5 +56,6 @@
     "weather_code_86"              : "Heavy snow showers",
     "weather_code_95"              : "Thunderstorm",
     "weather_code_96"              : "Thunderstorm with slight hail",
-    "weather_code_99"              : "Thunderstorm with heavy hail"
+    "weather_code_99"              : "Thunderstorm with heavy hail",
+    "action_restart"               : "Restart"
 }

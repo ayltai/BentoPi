@@ -11,12 +11,17 @@ import { INTERVAL_HUMIDITY_UPDATE, INTERVAL_TEMPERATURE_UPDATE, SCREEN_WIDTH, TO
 import { handleError, } from '../utils';
 import { Clock, } from './Clock';
 
-const LINKS : Record<string, number> = {
+const APP_LINKS : Record<string, number> = {
     '/dashboard/weather'     : 0,
     '/dashboard/news'        : 1,
     '/dashboard/disruptions' : 2,
-    '/dashboard/security'    : 3,
-    '/dashboard/system'      : 4,
+    '/dashboard/games'       : 3,
+    '/dashboard/security'    : 4,
+    '/dashboard/system'      : 5,
+};
+
+const GAME_LINKS : Record<string, number> = {
+    '/games/memory' : 0,
 };
 
 export const TopBar = () => {
@@ -68,11 +73,18 @@ export const TopBar = () => {
                     icon={<ArrowLeftOutlined />}
                     onClick={handleClick} />
             )}
-            {LINKS[location.pathname] !== undefined && (
+            {APP_LINKS[location.pathname] !== undefined && (
                 <Typography.Text>
                     {(t('apps', {
                         returnObjects : true,
-                    }) as string[])[LINKS[location.pathname]]}
+                    }) as string[])[APP_LINKS[location.pathname]]}
+                </Typography.Text>
+            )}
+            {GAME_LINKS[location.pathname] !== undefined && (
+                <Typography.Text>
+                    {(t('games', {
+                        returnObjects : true,
+                    }) as string[])[GAME_LINKS[location.pathname]]}
                 </Typography.Text>
             )}
             <div style={{

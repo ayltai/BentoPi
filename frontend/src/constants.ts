@@ -1,6 +1,7 @@
 import { faCloud, faCloudBolt, faCloudMoon, faCloudRain, faCloudShowersHeavy, faCloudSun, faMoon, faSmog, faSnowflake, faSun, type IconDefinition, } from '@fortawesome/free-solid-svg-icons';
 
 export const SCREEN_WIDTH   : number = 480;
+export const SCREEN_HEIGHT  : number = 320;
 export const TOP_BAR_HEIGHT : number = 48;
 
 export const API_ENDPOINT : string = `http://${window.location.hostname}:8000`;
