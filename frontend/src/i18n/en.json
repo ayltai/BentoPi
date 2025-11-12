@@ -9,7 +9,8 @@
         "System"
     ],
     "games"                        : [
-        "Memory"
+        "Memory",
+        "Hangman"
     ],
     "label_system_cpu_temperature" : "CPU Temperature",
     "label_system_cpu_voltage"     : "CPU Voltage",
@@ -26,6 +27,9 @@
     "incoming_snow_other"          : "Possible snow in the next {{count}} minutes",
     "unit_precipitation"           : "mm",
     "unit_wind_speed"              : "mph",
+    "result_won"                   : "You won!",
+    "result_lost"                  : "You lost!",
+    "result_secret"                : "The word was: ",
     "empty_disruptions"            : "No disruptions reported",
     "empty_news_feed"              : "No news available",
     "empty_weather_data"           : "No weather data available",

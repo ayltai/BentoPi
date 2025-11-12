@@ -1,3 +1,4 @@
+import { ReloadOutlined, } from '@ant-design/icons';
 import { Button, Col, Row, Typography, } from 'antd';
 import { useCallback, useEffect, useMemo, useState, } from 'react';
 import { useTranslation, } from 'react-i18next';
@@ -207,6 +208,7 @@ export const MemoryGameScreen = () => {
                     span={24}>
                     <Button
                         size='small'
+                        icon={<ReloadOutlined />}
                         onClick={restart}>
                         <Typography.Text style={{
                             fontSize : '0.85em',

@@ -2,6 +2,7 @@ export { CamerasScreen, } from './CamerasScreen';
 export { ClockScreen, } from './ClockScreen';
 export { DisruptionsScreen, } from './DisruptionsScreen';
 export { GamesScreen, } from './GamesScreen';
+export { HangmanGameScreen, } from './HangmanGameScreen';
 export { HomeScreen, } from './HomeScreen';
 export { MemoryGameScreen, } from './MemoryGameScreen';
 export { NewsScreen, } from './NewsScreen';

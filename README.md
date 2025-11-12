@@ -2,6 +2,8 @@
 
 BentoPi is a multi-purpose, self-hosted dashboard designed for Raspberry Pi. It provides real-time information such as weather, news, and transport disruptions, making it ideal for home automation, information kiosks, or personal dashboards.
 
+The target is a 3.5" 480x320 touchscreen attached to a Raspberry Pi Zero 2 W, but it can run on any Raspberry Pi model with minor adjustments.
+
 ## Goals & Purpose
 
 - **Self-hosted**: All data is processed and displayed locally on your Raspberry Pi.

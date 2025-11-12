@@ -1,5 +1,4 @@
-
-import { AppstoreFilled, } from '@ant-design/icons';
+import { AppstoreOutlined, UserOutlined, } from '@ant-design/icons';
 import { Button, Flex, Typography, } from 'antd';
 import { type ReactElement, } from 'react';
 import { useTranslation, } from 'react-i18next';
@@ -8,11 +7,16 @@ import { useNavigate, } from 'react-router';
 const ICON_SIZE : number = 64;
 
 const ICONS : ReactElement[] = [
-    <AppstoreFilled
+    <AppstoreOutlined
         style={{
             fontSize : ICON_SIZE,
         }}
         key='memory' />,
+    <UserOutlined
+        style={{
+            fontSize : ICON_SIZE,
+        }}
+        key='hangman' />,
 ];
 
 export const GamesScreen = () => {
