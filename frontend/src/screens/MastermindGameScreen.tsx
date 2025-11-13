@@ -1,17 +1,14 @@
 import { ClearOutlined, QuestionOutlined, ReloadOutlined, } from '@ant-design/icons';
-import { Button, Col, Flex, message, Row, Space, } from 'antd';
-import { type ReactNode, useCallback, useEffect, useState, } from 'react';
+import { Button, Col, Flex, Modal, Row, Space, Typography, } from 'antd';
+import { useCallback, } from 'react';
 import { useTranslation, } from 'react-i18next';
 
 import { useAppDispatch, useAppSelector, } from '../hooks';
-import { cyclePeg, makeGuess, pickColour, reset, setCurrent, } from '../states';
-import { handleError, } from '../utils';
-import { type GuessResult, PALETTE, PEG_COUNT, } from '../states/mastermindSlice';
+import { cyclePeg, type GuessResult, makeGuess, PALETTE, PEG_COUNT, pickColour, reset, setCurrent, } from '../states/mastermindSlice';
 
-const MAX_ATTEMPTS     : number = 10;
-const PEG_SIZE         : number = 32;
-const FEEDBACK_SIZE    : number = 12;
-const MESSAGE_DURATION : number = 5;
+const MAX_ATTEMPTS  : number = 10;
+const PEG_SIZE      : number = 32;
+const FEEDBACK_SIZE : number = 12;
 
 const GuessHistory = ({
     guesses,
@@ -173,14 +170,7 @@ export const MastermindGameScreen = () => {
 
     const { t, } = useTranslation();
 
-    const [ attempt, setAttempt, ] = useState<number>(0);
-
-    const [ messageApi, contextHolder, ] = message.useMessage();
-
-    const handleReset = useCallback(() => {
-        dispatch(reset());
-        setAttempt(0);
-    }, [ dispatch, ]);
+    const handleReset = useCallback(() => dispatch(reset()), [ dispatch, ]);
 
     const handleGuess = async () => {
         if (current.some((c : number | null) => c === null)) return;
@@ -196,32 +186,30 @@ export const MastermindGameScreen = () => {
 
     const handleClear = () => dispatch(setCurrent((Array(PEG_COUNT).fill(null))));
 
-    const showMessage = useCallback(async (content : ReactNode, type : 'success' | 'error') => {
-        if (type === 'success') {
-            await messageApi.success(content, MESSAGE_DURATION, handleReset);
-        } else if (type === 'error') {
-            await messageApi.error(content, MESSAGE_DURATION, handleReset);
-        }
-    }, [ handleReset, messageApi, ]);
-
-    useEffect(() => {
-        const feedback = guesses.length > 0 ? guesses[guesses.length - 1].feedback : {
-            correct   : 0,
-            misplaced : 0,
-        };
-
-        if (feedback.correct === PEG_COUNT) {
-            showMessage(`Congratulations! You've cracked the code in ${guesses.length} attempts.`, 'success').catch(handleError);
-        } else if (attempt + 1 >= MAX_ATTEMPTS) {
-            showMessage(`You've used all your attempts! The correct code was ${secret.map((i : number) => i + 1).join(', ')}.`, 'error').catch(handleError);
-        }
-    }, [ attempt, guesses, secret, showMessage, ]);
+    const Secret = (
+        <Flex
+            style={{
+                marginTop : 8,
+            }}
+            gap={6}
+            justify='center'>
+            {secret.map((peg : number, index : number) => (
+                <div
+                    key={`peg-${index}`}
+                    style={{
+                        width           : PEG_SIZE,
+                        height          : PEG_SIZE,
+                        borderRadius    : '50%',
+                        backgroundColor : PALETTE[peg],
+                    }} />
+            ))}
+        </Flex>
+    );
 
     return (
         <div style={{
             padding : 8,
         }}>
-            {contextHolder}
             <Row
                 align='middle'
                 justify='space-between'>
@@ -275,6 +263,47 @@ export const MastermindGameScreen = () => {
                     </Flex>
                 </Col>
             </Row>
+            <Modal
+                style={{
+                    textAlign : 'center',
+                }}
+                width='80%'
+                centered
+                closable={false}
+                open={guesses.length > 0 && guesses[guesses.length - 1].feedback.correct === PEG_COUNT || guesses.length >= MAX_ATTEMPTS}
+                footer={null}>
+                {guesses.length > 0 && guesses[guesses.length - 1].feedback.correct === PEG_COUNT && (
+                    <>
+                        <Typography.Title level={4}>
+                            {t('result_won')}
+                        </Typography.Title>
+                        <Typography.Text>
+                            {t('result_code')}
+                            {Secret}
+                        </Typography.Text>
+                    </>
+                )}
+                {guesses.length > 0 && guesses[guesses.length - 1].feedback.correct < PEG_COUNT && guesses.length >= MAX_ATTEMPTS && (
+                    <>
+                        <Typography.Title level={4}>
+                            {t('result_lost')}
+                        </Typography.Title>
+                        <Typography.Text>
+                            {t('result_code')}
+                            {Secret}
+                        </Typography.Text>
+                    </>
+                )}
+                <div style={{
+                    marginTop : 32,
+                }}>
+                    <Button
+                        type='primary'
+                        onClick={handleReset}>
+                        {t('action_restart')}
+                    </Button>
+                </div>
+            </Modal>
         </div>
     );
 };

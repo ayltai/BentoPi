@@ -97,6 +97,7 @@ export const mastermindSlice = createSlice({
     reducers : {
         reset      : () => ({
             ...initialState,
+            secret : generateSecret(),
         }),
         pickColour : (state, action : PayloadAction<number>) => {
             const firstEmpty = state.current.indexOf(null);

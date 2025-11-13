@@ -1,43 +1,13 @@
 import { ReloadOutlined, } from '@ant-design/icons';
 import { Button, Col, Modal, Progress, Row, Space, Typography, } from 'antd';
-import { useCallback, useEffect, useMemo, useState, } from 'react';
+import { useCallback, useMemo, } from 'react';
 import { useTranslation, } from 'react-i18next';
 
 import { SCREEN_HEIGHT, SCREEN_WIDTH, TOP_BAR_HEIGHT, } from '../constants';
-import { useRandom, } from '../hooks';
+import { useAppDispatch, useAppSelector, } from '../hooks';
+import { makeGuess, MEANINGS, reset, } from '../states/hangmanSlice';
 
 const MAX_WRONG : number = 6;
-
-const MEANINGS : Record<string, string> = {
-    apple     : 'A fruit that is typically red, green, or yellow.',
-    banana    : 'A long, curved fruit with a yellow skin.',
-    bicycle   : 'A vehicle with two wheels that you ride by pedaling.',
-    circle    : 'A round shape with no corners or edges.',
-    difficult : 'Not easy; requiring effort or skill to do or understand.',
-    earth     : 'The planet we live on; the third planet from the sun.',
-    eight     : 'The number that comes after seven and before nine.',
-    famous    : 'Well-known by many people; celebrated.',
-    february  : 'The second month of the year in the calendar.',
-    heart     : 'A muscular organ that pumps blood through the body.',
-    history   : 'The study of past events, particularly in human affairs.',
-    important : 'Of great significance or value.',
-    library   : 'A place where books are kept for reading or borrowing.',
-    medicine  : 'A substance used to treat illness or injury.',
-    ordinary  : 'With no special or distinctive features; normal.',
-    perhaps   : 'Used to express uncertainty or possibility.',
-    popular   : 'Liked or admired by many people.',
-    potatoes  : 'A starchy vegetable that is often cooked and eaten as food.',
-    probably  : 'Almost certainly; as far as one knows or can tell.',
-    promise   : 'A declaration that one will do something.',
-    quarter   : 'One of four equal parts of a whole.',
-    regular   : 'Conforming to a standard; usual or normal.',
-    remember  : 'To bring to mind or think of again.',
-    special   : 'Different from what is usual.',
-    strength  : 'The quality of being strong; power.',
-    surprise  : 'An unexpected event, fact, or thing.',
-};
-
-type Result = 'win' | 'lose' | null;
 
 const HangmanSVG = ({
     step,
@@ -174,66 +144,33 @@ const HangmanSVG = ({
 };
 
 export const HangmanGameScreen = () => {
-    const [ random, ] = useRandom();
+    const dispatch = useAppDispatch();
 
-    const choose = (list : string[]) => list[Math.floor(random() * list.length)];
-
-    const [ secret,     setSecret,     ] = useState<string>(choose(Object.keys(MEANINGS)));
-    const [ guessed,    setGuessed,    ] = useState<Set<string>>(new Set());
-    const [ wrongCount, setWrongCount, ] = useState<number>(0);
-    const [ showModal,  setShowModal,  ] = useState<boolean>(false);
-    const [ gameResult, setGameResult, ] = useState<Result>(null);
+    const { secret, guessed, attempt, } = useAppSelector(state => state.hangman);
 
     const letters = useMemo(() => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''), []);
 
-    const normalizedSecret = secret.toUpperCase();
+    const remaining = useMemo(() => Math.max(0, MAX_WRONG - attempt), [ attempt, ]);
 
-    const remaining = useMemo(() => Math.max(0, MAX_WRONG - wrongCount), [ wrongCount, ]);
+    const evaluate = useCallback(() => secret.split('').every((char : string) => guessed.includes(char)), [ guessed, secret, ]);
 
-    const resetGame = () => {
-        setSecret(choose(Object.keys(MEANINGS)));
-        setGuessed(new Set());
-        setWrongCount(0);
-        setShowModal(false);
-        setGameResult(null);
-    };
+    const handleReset = () => dispatch(reset());
 
-    const finishGame = useCallback((result : Result) => {
-        setGameResult(result);
-        setShowModal(true);
-    }, []);
+    const gameResult = useMemo(() => {
+        if (evaluate()) return 'win';
+
+        if (attempt >= MAX_WRONG) return 'lose';
+
+        return null;
+    }, [ attempt, evaluate, ]);
 
     const onLetterPress = (letter : string) => {
         if (gameResult) return;
 
-        setGuessed(prev => {
-            const next = new Set(prev);
-            if (next.has(letter)) return next;
-
-            next.add(letter);
-
-            return next;
-        });
-
-        if (!normalizedSecret.includes(letter)) setWrongCount(count => count + 1);
+        dispatch(makeGuess(letter));
     };
 
     const { t, } = useTranslation();
-
-    useEffect(() => {
-        let timeout = null;
-
-        const allRevealed = normalizedSecret.split('').every(char => guessed.has(char));
-        if (allRevealed) {
-            timeout = setTimeout(() => finishGame('win'), 0);
-        } else if (wrongCount >= MAX_WRONG) {
-            timeout = setTimeout(() => finishGame('lose'), 0);
-        }
-
-        return () => {
-            if (timeout) clearTimeout(timeout);
-        };
-    }, [ guessed, wrongCount, finishGame, normalizedSecret, ]);
 
     return (
         <div style={{
@@ -256,7 +193,7 @@ export const HangmanGameScreen = () => {
                         flexDirection : 'column',
                     }}
                     span={10}>
-                    <HangmanSVG step={Math.min(wrongCount, MAX_WRONG)} />
+                    <HangmanSVG step={Math.min(attempt, MAX_WRONG)} />
                     <div style={{
                         paddingLeft   : 8,
                         paddingRight  : 8,
@@ -274,7 +211,7 @@ export const HangmanGameScreen = () => {
                                     '50%'  : 'orange',
                                     '100%' : 'red',
                                 }}
-                                percent={Math.round((wrongCount / MAX_WRONG) * 100)}
+                                percent={Math.round((attempt / MAX_WRONG) * 100)}
                                 showInfo={false} />
                         </Space>
                     </div>
@@ -287,7 +224,7 @@ export const HangmanGameScreen = () => {
                         <Button
                             size='middle'
                             icon={<ReloadOutlined />}
-                            onClick={resetGame}>
+                            onClick={handleReset}>
                             <Typography.Text style={{
                                 fontSize : '0.85em',
                             }}>
@@ -315,7 +252,7 @@ export const HangmanGameScreen = () => {
                                 marginBottom : 8,
                                 fontSize     : '0.85em',
                             }}>
-                                {MEANINGS[secret]}
+                                {MEANINGS[secret.toLowerCase()]}
                             </Typography.Text>
                             <div
                                 aria-hidden
@@ -325,9 +262,9 @@ export const HangmanGameScreen = () => {
                                     textAlign     : 'center',
                                     userSelect    : 'none',
                                 }}>
-                                {normalizedSecret.split('').map((letter, index) => (
+                                {secret.split('').map((letter : string, index : number) => (
                                     <span key={`${letter}-${index}`}>
-                                        {guessed.has(letter) ? letter : '_'}
+                                        {guessed.includes(letter) ? letter : '_'}
                                     </span>
                                 ))}
                             </div>
@@ -347,9 +284,9 @@ export const HangmanGameScreen = () => {
                             paddingTop     : 4,
                         }}>
                             {letters.map((letter, index) => {
-                                const disabled = guessed.has(letter) || !!gameResult || remaining === 0;
-                                const correct  = guessed.has(letter) && normalizedSecret.includes(letter);
-                                const incorrect= guessed.has(letter) && !normalizedSecret.includes(letter);
+                                const disabled = guessed.includes(letter) || !!gameResult || remaining === 0;
+                                const correct  = guessed.includes(letter) && secret.includes(letter);
+                                const incorrect= guessed.includes(letter) && !secret.includes(letter);
 
                                 return (
                                     <Button
@@ -362,7 +299,7 @@ export const HangmanGameScreen = () => {
                                             backgroundColor : correct ? '#004d4088' : incorrect ? '#bf360c44' : undefined,
                                             touchAction     : 'manipulation',
                                         }}
-                                        aria-pressed={guessed.has(letter)}
+                                        aria-pressed={guessed.includes(letter)}
                                         size='small'
                                         disabled={disabled}
                                         onClick={() => onLetterPress(letter)}>
@@ -381,7 +318,7 @@ export const HangmanGameScreen = () => {
                 width='80%'
                 centered
                 closable={false}
-                open={showModal}
+                open={gameResult !== null}
                 footer={null}>
                 {gameResult === 'win' ? (
                     <>
@@ -409,10 +346,7 @@ export const HangmanGameScreen = () => {
                 }}>
                     <Button
                         type='primary'
-                        onClick={() => {
-                            resetGame();
-                            setShowModal(false);
-                        }}>
+                        onClick={handleReset}>
                         {t('action_restart')}
                     </Button>
                 </div>

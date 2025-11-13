@@ -31,6 +31,7 @@
     "result_won"                   : "You won!",
     "result_lost"                  : "You lost!",
     "result_secret"                : "The word was: ",
+    "result_code"                  : "The code was: ",
     "empty_disruptions"            : "No disruptions reported",
     "empty_news_feed"              : "No news available",
     "empty_weather_data"           : "No weather data available",
