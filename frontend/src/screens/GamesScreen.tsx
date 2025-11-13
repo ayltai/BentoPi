@@ -1,4 +1,4 @@
-import { AppstoreOutlined, UserOutlined, } from '@ant-design/icons';
+import { AppstoreOutlined, BulbOutlined, UserOutlined, } from '@ant-design/icons';
 import { Button, Flex, Typography, } from 'antd';
 import { type ReactElement, } from 'react';
 import { useTranslation, } from 'react-i18next';
@@ -17,6 +17,11 @@ const ICONS : ReactElement[] = [
             fontSize : ICON_SIZE,
         }}
         key='hangman' />,
+    <BulbOutlined
+        style={{
+            fontSize : ICON_SIZE,
+        }}
+        key='mastermind' />,
 ];
 
 export const GamesScreen = () => {

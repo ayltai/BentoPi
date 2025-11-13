@@ -3,6 +3,7 @@ import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, R
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 
 import { newsService, sensorService, systemService, tflService, unsplashService, weatherService, } from '../apis';
+import { mastermindReducer, } from './mastermindSlice';
 
 const createNoopStorage = () => ({
     getItem    : () => Promise.resolve(null),
@@ -25,6 +26,7 @@ const makeStore = () => configureStore({
             weatherService.reducerPath,
         ],
     }, combineReducers({
+        mastermind                      : mastermindReducer,
         [ newsService.reducerPath     ] : newsService.reducer,
         [ sensorService.reducerPath   ] : sensorService.reducer,
         [ systemService.reducerPath   ] : systemService.reducer,
@@ -53,3 +55,5 @@ export const persistor = persistStore(store);
 
 export type AppState    = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+export { cyclePeg, makeGuess, pickColour, reset, setCurrent, } from './mastermindSlice';

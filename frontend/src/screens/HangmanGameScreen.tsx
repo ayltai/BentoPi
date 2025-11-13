@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState, } from 'react';
 import { useTranslation, } from 'react-i18next';
 
 import { SCREEN_HEIGHT, SCREEN_WIDTH, TOP_BAR_HEIGHT, } from '../constants';
+import { useRandom, } from '../hooks';
 
 const MAX_WRONG : number = 6;
 
@@ -37,12 +38,6 @@ const MEANINGS : Record<string, string> = {
 };
 
 type Result = 'win' | 'lose' | null;
-
-const seededRandom = (seed : number) : () => number => {
-    let value = seed % 2147483647;
-    if (value <= 0) value += 2147483646;
-    return () => (value = (value * 16807) % 2147483647) / 2147483647;
-};
 
 const HangmanSVG = ({
     step,
@@ -179,9 +174,7 @@ const HangmanSVG = ({
 };
 
 export const HangmanGameScreen = () => {
-    const [ seed, ] = useState<number>(() => Date.now());
-
-    const random = useMemo(() => seededRandom(seed), [ seed, ]);
+    const [ random, ] = useRandom();
 
     const choose = (list : string[]) => list[Math.floor(random() * list.length)];
 

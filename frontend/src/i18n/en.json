@@ -10,7 +10,8 @@
     ],
     "games"                        : [
         "Memory",
-        "Hangman"
+        "Hangman",
+        "Mastermind"
     ],
     "label_system_cpu_temperature" : "CPU Temperature",
     "label_system_cpu_voltage"     : "CPU Voltage",
@@ -61,5 +62,7 @@
     "weather_code_95"              : "Thunderstorm",
     "weather_code_96"              : "Thunderstorm with slight hail",
     "weather_code_99"              : "Thunderstorm with heavy hail",
-    "action_restart"               : "Restart"
+    "action_restart"               : "Restart",
+    "action_guess"                 : "Guess",
+    "action_clear"                 : "Clear"
 }

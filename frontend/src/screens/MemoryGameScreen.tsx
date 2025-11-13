@@ -1,8 +1,9 @@
 import { ReloadOutlined, } from '@ant-design/icons';
 import { Button, Col, Row, Typography, } from 'antd';
-import { useCallback, useEffect, useMemo, useState, } from 'react';
+import { useCallback, useEffect, useState, } from 'react';
 import { useTranslation, } from 'react-i18next';
 
+import { useRandom, } from '../hooks';
 import './MemoryGameScreen.css';
 
 const ROWS : number                          = 3;
@@ -31,12 +32,6 @@ type MemoryCard = {
     pairId : number,
 };
 
-const seededRandom = (seed : number) : () => number => {
-    let value = seed % 2147483647;
-    if (value <= 0) value += 2147483646;
-    return () => (value = (value * 16807) % 2147483647) / 2147483647;
-};
-
 const shuffle = <T, >(array : T[], random : () => number) : T[] => {
     const result = [ ...array, ];
 
@@ -52,9 +47,7 @@ export const MemoryGameScreen = () => {
     const total = ROWS * COLS;
     const pairs = total / 2;
 
-    const [ seed, setSeed, ] = useState<number>(() => Date.now());
-
-    const random = useMemo(() => seededRandom(seed), [ seed, ]);
+    const [ random, ] = useRandom();
 
     const buildShuffledDeck = useCallback(() : MemoryCard[] => {
         const shuffledFaces : string[]     = shuffle(FACES, random);
@@ -85,7 +78,6 @@ export const MemoryGameScreen = () => {
     const { t, } = useTranslation();
 
     const restart = useCallback(() => {
-        setSeed(Date.now());
         setDeck(buildShuffledDeck());
         setFlippedCards([]);
         setMatchedPairs(new Set());

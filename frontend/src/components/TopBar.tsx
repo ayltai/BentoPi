@@ -21,8 +21,9 @@ const APP_LINKS : Record<string, number> = {
 };
 
 const GAME_LINKS : Record<string, number> = {
-    '/games/memory'  : 0,
-    '/games/hangman' : 1,
+    '/games/memory'     : 0,
+    '/games/hangman'    : 1,
+    '/games/mastermind' : 2,
 };
 
 export const TopBar = () => {

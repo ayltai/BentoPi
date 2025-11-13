@@ -4,6 +4,7 @@ export { DisruptionsScreen, } from './DisruptionsScreen';
 export { GamesScreen, } from './GamesScreen';
 export { HangmanGameScreen, } from './HangmanGameScreen';
 export { HomeScreen, } from './HomeScreen';
+export { MastermindGameScreen, } from './MastermindGameScreen';
 export { MemoryGameScreen, } from './MemoryGameScreen';
 export { NewsScreen, } from './NewsScreen';
 export { SystemScreen, } from './SystemScreen';
