@@ -5,10 +5,16 @@ import { Provider, } from 'react-redux';
 import { MemoryRouter, } from 'react-router';
 
 import { newsService, sensorService, tflService, unsplashService, weatherService, } from '../apis';
+import { hangmanReducer, } from '../states/hangmanSlice';
+import { mastermindReducer, } from '../states/mastermindSlice';
+import { memoryReducer, } from '../states/memorySlice';
 
 export const createStore = (preloadedState? : unknown) => configureStore({
     preloadedState,
     reducer    : {
+        hangman                         : hangmanReducer,
+        mastermind                      : mastermindReducer,
+        memory                          : memoryReducer,
         [ newsService.reducerPath     ] : newsService.reducer,
         [ sensorService.reducerPath   ] : sensorService.reducer,
         [ tflService.reducerPath      ] : tflService.reducer,

@@ -1,7 +1,7 @@
 import { render, } from '../utils/test';
 import { SystemScreen, } from './SystemScreen';
 
-vi.mock('../apis', async (importOriginal) => ({
+vi.mock('../apis', async importOriginal => ({
     ...(await importOriginal<any>()),
     useGetCpuTemperatureQuery : () => ({
         data  : 55.5,

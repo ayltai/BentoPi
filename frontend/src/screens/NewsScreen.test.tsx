@@ -1,7 +1,7 @@
 import { render, } from '../utils/test';
 import { NewsScreen, } from './NewsScreen';
 
-vi.mock('../apis', async (importOriginal) => ({
+vi.mock('../apis', async importOriginal => ({
     ...await importOriginal(),
     useGetNewsQuery : () => ({
         data  : [
@@ -14,7 +14,7 @@ vi.mock('../apis', async (importOriginal) => ({
     }),
 }));
 
-vi.mock('date-fns', async (importOriginal) => ({
+vi.mock('date-fns', async importOriginal => ({
     ...await importOriginal(),
     intlFormatDistance : () => '5 minutes ago',
 }));

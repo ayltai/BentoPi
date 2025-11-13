@@ -1,4 +1,4 @@
-import { render, fireEvent, } from '../utils/test';
+import { fireEvent, render, } from '../utils/test';
 import { HangmanGameScreen, } from './HangmanGameScreen';
 
 describe('<HangmanGameScreen />', () => {

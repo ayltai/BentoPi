@@ -144,9 +144,9 @@ const HangmanSVG = ({
 };
 
 export const HangmanGameScreen = () => {
-    const dispatch = useAppDispatch();
-
     const { secret, guessed, attempt, } = useAppSelector(state => state.hangman);
+
+    const dispatch = useAppDispatch();
 
     const letters = useMemo(() => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''), []);
 

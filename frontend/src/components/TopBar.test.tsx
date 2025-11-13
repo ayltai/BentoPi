@@ -1,7 +1,7 @@
 import { render, } from '../utils/test';
 import { TopBar, } from './TopBar';
 
-vi.mock('../apis', async (importOriginal) => ({
+vi.mock('../apis', async importOriginal => ({
     ...await importOriginal(),
     useGetTemperatureQuery : () => ({
         data  : 21.5,

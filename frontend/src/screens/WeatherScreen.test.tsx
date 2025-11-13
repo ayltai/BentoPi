@@ -1,7 +1,7 @@
 import { render, } from '../utils/test';
 import { WeatherScreen, } from './WeatherScreen';
 
-vi.mock('../apis', async (importOriginal) => ({
+vi.mock('../apis', async importOriginal => ({
     ...await importOriginal(),
     useGetWeatherQuery     : () => ({
         data  : {

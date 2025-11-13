@@ -1,7 +1,7 @@
 import { render, } from '../utils/test';
 import { DisruptionsScreen, } from './DisruptionsScreen';
 
-vi.mock('../apis', async (importOriginal) => ({
+vi.mock('../apis', async importOriginal => ({
     ...await importOriginal(),
     useGetDisruptionsQuery : () => ({
         data  : [

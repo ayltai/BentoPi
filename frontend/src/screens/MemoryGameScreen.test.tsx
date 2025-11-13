@@ -1,4 +1,4 @@
-import { render, fireEvent, } from '../utils/test';
+import { fireEvent, render, } from '../utils/test';
 import { MemoryGameScreen, } from './MemoryGameScreen';
 
 describe('<MemoryGameScreen />', () => {
