@@ -5,7 +5,8 @@ import { type ReactElement, } from 'react';
 import { useTranslation, } from 'react-i18next';
 import { useNavigate, } from 'react-router';
 
-const ICON_SIZE : number = 64;
+const ICON_SIZE   : number = 56;
+const BUTTON_SIZE : number = 96;
 
 const ICONS : ReactElement[] = [
     <SunFilled
@@ -48,12 +49,12 @@ export const HomeScreen = () => {
     return (
         <Flex
             style={{
-                padding : 24,
+                padding : 16,
             }}
             wrap
-            gap={24}
+            gap={16}
             align='center'
-            justify='start'>
+            justify='space-evenly'>
             {(t('apps', {
                 returnObjects : true,
             }) as string[]).map((app, index) => {
@@ -67,8 +68,10 @@ export const HomeScreen = () => {
                         justify='center'>
                         <Button
                             style={{
-                                width  : 128,
-                                height : 128,
+                                width       : BUTTON_SIZE,
+                                height      : BUTTON_SIZE,
+                                marginLeft  : 8,
+                                marginRight : 8,
                             }}
                             icon={ICONS[index]}
                             onClick={handleClick} />

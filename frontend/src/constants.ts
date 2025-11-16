@@ -20,7 +20,8 @@ export const INTERVAL_NEWS_UPDATE        : number = 900000;
 export const INTERVAL_DISRUPTIONS_UPDATE : number = 300000;
 export const INTERVAL_SYSTEM_UPDATE      : number = 5000;
 
-export const TIMEOUT_IDLE : number = 120000;
+export const TIMEOUT_IDLE        : number = 120000;
+export const TIMEOUT_SCREENSAVER : number = 1800000;
 
 export const WEATHER_ICONS : Record<number, IconDefinition> = {
     0  : faSun,
