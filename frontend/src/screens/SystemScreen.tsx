@@ -2,36 +2,37 @@ import { Descriptions, Typography, } from 'antd';
 import { useEffect, } from 'react';
 import { useTranslation, } from 'react-i18next';
 
+import { INTERVAL_SYSTEM_UPDATE, } from '../constants';
 import { useGetCpuFrequencyQuery, useGetCpuTemperatureQuery, useGetCpuVoltageQuery, useGetDiskTotalQuery, useGetDiskUsageQuery, useGetMemoryTotalQuery, useGetMemoryUsageQuery, } from '../apis';
 import { handleError, } from '../utils';
 
 export const SystemScreen = () => {
     const { data : temperatureData, error : temperatureError, } = useGetCpuTemperatureQuery(undefined, {
-        refetchOnMountOrArgChange : true,
+        pollingInterval : INTERVAL_SYSTEM_UPDATE,
     });
 
     const { data : voltageData, error : voltageError, } = useGetCpuVoltageQuery(undefined, {
-        refetchOnMountOrArgChange : true,
+        pollingInterval : INTERVAL_SYSTEM_UPDATE,
     });
 
     const { data : frequencyData, error : frequencyError, } = useGetCpuFrequencyQuery(undefined, {
-        refetchOnMountOrArgChange : true,
+        pollingInterval : INTERVAL_SYSTEM_UPDATE,
     });
 
     const { data : memoryTotalData, error : memoryTotalError, } = useGetMemoryTotalQuery(undefined, {
-        refetchOnMountOrArgChange : true,
+        pollingInterval : INTERVAL_SYSTEM_UPDATE,
     });
 
     const { data : memoryUsageData, error : memoryUsageError, } = useGetMemoryUsageQuery(undefined, {
-        refetchOnMountOrArgChange : true,
+        pollingInterval : INTERVAL_SYSTEM_UPDATE,
     });
 
     const { data : diskTotalData, error : diskTotalError, } = useGetDiskTotalQuery(undefined, {
-        refetchOnMountOrArgChange : true,
+        pollingInterval : INTERVAL_SYSTEM_UPDATE,
     });
 
     const { data : diskUsageData, error : diskUsageError, } = useGetDiskUsageQuery(undefined, {
-        refetchOnMountOrArgChange : true,
+        pollingInterval : INTERVAL_SYSTEM_UPDATE,
     });
 
     const { t, } = useTranslation();

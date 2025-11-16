@@ -18,6 +18,7 @@ export const INTERVAL_HUMIDITY_UPDATE    : number = 300000;
 export const INTERVAL_WEATHER_UPDATE     : number = 900000;
 export const INTERVAL_NEWS_UPDATE        : number = 900000;
 export const INTERVAL_DISRUPTIONS_UPDATE : number = 300000;
+export const INTERVAL_SYSTEM_UPDATE      : number = 5000;
 
 export const TIMEOUT_IDLE : number = 120000;
 

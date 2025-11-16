@@ -7,7 +7,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH, TOP_BAR_HEIGHT, } from '../constants';
 import { useAppDispatch, useAppSelector, } from '../hooks';
 import { makeGuess, MEANINGS, reset, } from '../states/hangmanSlice';
 
-const MAX_WRONG : number = 6;
+const MAX_WRONG : number = 12;
 
 const HangmanSVG = ({
     step,
@@ -61,7 +61,7 @@ const HangmanSVG = ({
     );
 
     // head
-    if (step > 0) parts.push(
+    if (step > 1) parts.push(
         <circle
             key='head'
             cx='110'
@@ -73,7 +73,7 @@ const HangmanSVG = ({
     );
 
     // body
-    if (step > 1) parts.push(
+    if (step > 3) parts.push(
         <line
             key='body'
             x1='110'
@@ -85,7 +85,7 @@ const HangmanSVG = ({
     );
 
     // left arm
-    if (step > 2) parts.push(
+    if (step > 5) parts.push(
         <line
             key='larm'
             x1='110'
@@ -97,7 +97,7 @@ const HangmanSVG = ({
     );
 
     // right arm
-    if (step > 3) parts.push(
+    if (step > 7) parts.push(
         <line
             key='rarm'
             x1='110'
@@ -109,7 +109,7 @@ const HangmanSVG = ({
     );
 
     // left leg
-    if (step > 4) parts.push(
+    if (step > 9) parts.push(
         <line
             key='lleg'
             x1='110'
@@ -121,7 +121,7 @@ const HangmanSVG = ({
     );
 
     // right leg
-    if (step > 5) parts.push(
+    if (step > 11) parts.push(
         <line
             key='rleg'
             x1='110'
