@@ -12,12 +12,13 @@ import { handleError, } from '../utils';
 import { Clock, } from './Clock';
 
 const APP_LINKS : Record<string, number> = {
-    '/dashboard/weather'     : 0,
-    '/dashboard/news'        : 1,
-    '/dashboard/disruptions' : 2,
-    '/dashboard/games'       : 3,
-    '/dashboard/security'    : 4,
-    '/dashboard/system'      : 5,
+    '/dashboard/heating'     : 0,
+    '/dashboard/weather'     : 1,
+    '/dashboard/news'        : 2,
+    '/dashboard/disruptions' : 3,
+    '/dashboard/games'       : 4,
+    '/dashboard/security'    : 5,
+    '/dashboard/system'      : 6,
 };
 
 const GAME_LINKS : Record<string, number> = {

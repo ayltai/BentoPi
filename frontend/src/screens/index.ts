@@ -3,6 +3,7 @@ export { ClockScreen, } from './ClockScreen';
 export { DisruptionsScreen, } from './DisruptionsScreen';
 export { GamesScreen, } from './GamesScreen';
 export { HangmanGameScreen, } from './HangmanGameScreen';
+export { HeatingScreen, } from './HeatingScreen';
 export { HomeScreen, } from './HomeScreen';
 export { MastermindGameScreen, } from './MastermindGameScreen';
 export { MemoryGameScreen, } from './MemoryGameScreen';

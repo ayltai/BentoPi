@@ -1,3 +1,4 @@
+export type { Configuration, Device, Telemetry, } from './heating';
 export type { Location, } from './Location';
 export type { default as News, } from './news';
 export type { default as Disruption, } from './tfl';

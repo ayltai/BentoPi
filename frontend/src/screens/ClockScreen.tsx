@@ -28,12 +28,15 @@ export const ClockScreen = () => {
     }, []);
 
     return (
-        <Layout>
+        <Layout style={{
+            backgroundColor : 'black',
+        }}>
             <Layout.Content>
                 <Flex
                     style={{
-                        marginTop    : 104,
-                        marginBottom : 104,
+                        marginTop       : 104,
+                        marginBottom    : 104,
+                        backgroundColor : 'black',
                     }}
                     vertical
                     align='center'

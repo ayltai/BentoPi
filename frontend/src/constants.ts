@@ -19,6 +19,10 @@ export const INTERVAL_WEATHER_UPDATE     : number = 900000;
 export const INTERVAL_NEWS_UPDATE        : number = 900000;
 export const INTERVAL_DISRUPTIONS_UPDATE : number = 300000;
 export const INTERVAL_SYSTEM_UPDATE      : number = 5000;
+export const INTERVAL_HEATING_UPDATE     : number = 600000;
+
+export const HEATING_TEMPERATURE_MIN : number = 5;
+export const HEATING_TEMPERATURE_MAX : number = 30;
 
 export const TIMEOUT_IDLE        : number = 120000;
 export const TIMEOUT_SCREENSAVER : number = 1800000;

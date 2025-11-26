@@ -1,5 +1,5 @@
 
-import { ReadFilled, SettingFilled, SmileFilled, SunFilled, VideoCameraFilled,  WarningFilled, } from '@ant-design/icons';
+import { FireFilled, ReadFilled, SettingFilled, SmileFilled, SunFilled, VideoCameraFilled,  WarningFilled, } from '@ant-design/icons';
 import { Button, Flex, Typography, } from 'antd';
 import { type ReactElement, } from 'react';
 import { useTranslation, } from 'react-i18next';
@@ -9,6 +9,11 @@ const ICON_SIZE   : number = 56;
 const BUTTON_SIZE : number = 96;
 
 const ICONS : ReactElement[] = [
+    <FireFilled
+        style={{
+            fontSize : ICON_SIZE,
+        }}
+        key='heating' />,
     <SunFilled
         style={{
             fontSize : ICON_SIZE,

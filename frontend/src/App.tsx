@@ -9,7 +9,7 @@ import { RouterProvider, } from 'react-router/dom';
 import { useGetWeatherQuery, } from './apis';
 import { IdleManager, TopBar, } from './components';
 import { INTERVAL_WEATHER_UPDATE, LOCATION_LATITUDE, LOCATION_LONGITUDE, LOCATION_TIMEZONE, SCREEN_WIDTH, TOP_BAR_HEIGHT, } from './constants';
-import { CamerasScreen, ClockScreen, DisruptionsScreen, GamesScreen, HangmanGameScreen, HomeScreen, MastermindGameScreen, MemoryGameScreen, NewsScreen, SystemScreen, WeatherScreen, } from './screens';
+import { CamerasScreen, ClockScreen, DisruptionsScreen, GamesScreen, HangmanGameScreen, HeatingScreen, HomeScreen, MastermindGameScreen, MemoryGameScreen, NewsScreen, SystemScreen, WeatherScreen, } from './screens';
 import { handleError, } from './utils';
 
 const DashboardLayout = () => (
@@ -109,6 +109,9 @@ export const App = () => {
                                 {
                                     path      : '/dashboard/home',
                                     Component : HomeScreen,
+                                }, {
+                                    path      : '/dashboard/heating',
+                                    Component : HeatingScreen,
                                 }, {
                                     path      : '/dashboard/weather',
                                     Component : WeatherScreen,
