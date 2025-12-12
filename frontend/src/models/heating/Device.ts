@@ -1,6 +1,6 @@
 export type Device = {
-    id           : string,
-    displayName? : string,
-    mode?        : string,
-    lastSeen     : string,
+    id            : string,
+    displayName?  : string,
+    capabilities? : string,
+    lastSeen      : string,
 };

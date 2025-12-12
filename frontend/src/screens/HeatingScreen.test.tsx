@@ -34,15 +34,15 @@ describe('<HeatingScreen />', () => {
         mockUseGetDevicesQuery.mockReturnValue({
             data  : [
                 {
-                    id          : '1',
-                    displayName : 'Living Room',
-                    mode        : 'sensor',
-                    lastSeen    : '2025-11-21T12:00:00Z',
+                    id           : '1',
+                    displayName  : 'Living Room',
+                    capabilities : 'temperature',
+                    lastSeen     : '2025-11-21T12:00:00Z',
                 }, {
-                    id          : '2',
-                    displayName : 'Heater',
-                    mode        : 'actuator',
-                    lastSeen    : '2025-11-21T12:00:00Z',
+                    id           : '2',
+                    displayName  : 'Heater',
+                    capabilities : 'action_relay',
+                    lastSeen     : '2025-11-21T12:00:00Z',
                 },
             ],
             error : undefined,
@@ -51,15 +51,15 @@ describe('<HeatingScreen />', () => {
         mockUseGetTelemetryQuery.mockReturnValue({
             data  : [
                 {
-                    deviceId   : '1',
-                    timestamp  : '2025-11-21T12:00:00Z',
-                    sensorType : 'temperature',
-                    value      : 19,
+                    deviceId  : '1',
+                    timestamp : '2025-11-21T12:00:00Z',
+                    dataType  : 'temperature',
+                    value     : 1900,
                 }, {
-                    deviceId   : '1',
-                    timestamp  : '2025-11-21T12:00:00Z',
-                    sensorType : 'humidity',
-                    value      : 40,
+                    deviceId  : '1',
+                    timestamp : '2025-11-21T12:00:00Z',
+                    dataType  : 'humidity',
+                    value      : 4000,
                 },
             ],
             error : undefined,
