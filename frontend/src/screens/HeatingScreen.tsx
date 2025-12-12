@@ -36,7 +36,7 @@ export const HeatingScreen = () => {
     const actuatorId = useMemo(() => {
         if (!devicesData) return null;
 
-        const actuator = devicesData.find(device => device.mode && device.mode.indexOf('actuator') >= 0);
+        const actuator = devicesData.find(device => device.capabilities && device.capabilities.indexOf('action_relay') >= 0);
         if (actuator) return actuator.id;
 
         return null;
@@ -51,7 +51,7 @@ export const HeatingScreen = () => {
         if (!telemetryData || telemetryData.length === 0) return 0;
 
         let lowest = Number.MAX_VALUE;
-        telemetryData.filter(telemetry => telemetry.sensorType === 'temperature').forEach(telemetry => {
+        telemetryData.filter(telemetry => telemetry.dataType === 'temperature').forEach(telemetry => {
             if (telemetry.value < lowest) lowest = telemetry.value;
         });
 
@@ -64,7 +64,7 @@ export const HeatingScreen = () => {
         let sum   = 0;
         let count = 0;
 
-        telemetryData.filter(telemetry => telemetry.sensorType === 'temperature').forEach(telemetry => {
+        telemetryData.filter(telemetry => telemetry.dataType === 'temperature').forEach(telemetry => {
             sum   += telemetry.value;
             count += 1;
         });
@@ -184,7 +184,7 @@ export const HeatingScreen = () => {
                     }}
                     minValue={5}
                     maxValue={40}
-                    value={configurationsData?.decisionStrategy === 'avg' ? averageTemperature : lowestTemperature } />
+                    value={(configurationsData?.decisionStrategy === 'avg' ? averageTemperature : lowestTemperature) / 100.0} />
             </Col>
             <Col
                 style={{
@@ -222,7 +222,7 @@ export const HeatingScreen = () => {
                             borderColor  : '#263238',
                         }}
                         orientation='horizontal' />
-                    {devicesData && devicesData.filter(device => device.id !== '544553545f4445564943455f31323334').filter(device => device.mode && device.mode.indexOf('sensor') >= 0).slice().sort((a, b) => {
+                    {devicesData && devicesData.filter(device => device.id !== '544553545f4445564943455f31323334').filter(device => device.capabilities && device.capabilities.indexOf('temperature') >= 0).slice().sort((a, b) => {
                         const indexA = a.displayName ? ORDER.indexOf(a.displayName) : -1;
                         const indexB = b.displayName ? ORDER.indexOf(b.displayName) : -1;
 
@@ -250,7 +250,7 @@ export const HeatingScreen = () => {
                                     <FontAwesomeIcon
                                         size='sm'
                                         icon={faTemperatureFull} />
-                                    {(telemetryData && telemetryData.find(telemetry => telemetry.deviceId === device.id && telemetry.sensorType === 'temperature')?.value.toFixed(1)) ?? '-'}°C
+                                    {(telemetryData && telemetryData.filter(telemetry => telemetry.deviceId === device.id && telemetry.dataType === 'temperature')?.map(telemetry => telemetry.value / 100.0)[0]?.toFixed(1)) ?? '-'}°C
                                 </Typography.Text>
                             </Col>
                             <Col span={6}>
@@ -260,7 +260,7 @@ export const HeatingScreen = () => {
                                     <FontAwesomeIcon
                                         size='sm'
                                         icon={faDroplet} />
-                                    {(telemetryData && telemetryData.find(telemetry => telemetry.deviceId === device.id && telemetry.sensorType === 'humidity')?.value.toFixed(0)) ?? '-'}%
+                                    {(telemetryData && telemetryData.filter(telemetry => telemetry.deviceId === device.id && telemetry.dataType === 'humidity')?.map(telemetry => telemetry.value / 100.0)[0]?.toFixed(0)) ?? '-'}%
                                 </Typography.Text>
                             </Col>
                         </Row>

@@ -4,10 +4,10 @@ import { API_MAX_RETRIES, } from '../constants';
 import type { Configuration, Device, Telemetry, } from '../models';
 import { camelCaseToSnakeCase, snakeCaseToCamelCase, } from '../utils/strings';
 
-export const thermohiveService = createApi({
-    reducerPath : 'thermohiveService',
+export const espartanThermoService = createApi({
+    reducerPath : 'espartanThermoService',
     baseQuery   : fetchBaseQuery({
-        baseUrl : 'http://192.168.68.166:8010/api/v1',
+        baseUrl : 'http://192.168.68.166:8011/api/v1',
     }),
     endpoints   : build => ({
         getConfigurations : build.query<Configuration, void>({
@@ -57,4 +57,4 @@ export const thermohiveService = createApi({
     }),
 });
 
-export const { useGetConfigurationsQuery, useGetCurrentStateQuery, useGetDevicesQuery, useGetTelemetryQuery, useSetConfigurationsMutation, } = thermohiveService;
+export const { useGetConfigurationsQuery, useGetCurrentStateQuery, useGetDevicesQuery, useGetTelemetryQuery, useSetConfigurationsMutation, } = espartanThermoService;

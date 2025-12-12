@@ -10,6 +10,7 @@ router = APIRouter(prefix='/api/v1/sensors', tags=['sensor'])
 try:
     sensor = SHT20(1, SHT20.TEMP_RES_14bit)
 except OSError:
+    # pylint: disable=invalid-name
     sensor = None
 
 
