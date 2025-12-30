@@ -74,7 +74,7 @@ export const HeatingScreen = () => {
 
     const handleIncrementThreshold = () => {
         setConfiguration({
-            thresholdOn      : configurationsData!.thresholdOn + 0.5,
+            thresholdOn      : configurationsData!.thresholdOff,
             thresholdOff     : configurationsData!.thresholdOff + 0.5,
             decisionStrategy : configurationsData!.decisionStrategy,
         });
@@ -82,7 +82,7 @@ export const HeatingScreen = () => {
 
     const handleDecrementThreshold = () => {
         setConfiguration({
-            thresholdOn      : configurationsData!.thresholdOn - 0.5,
+            thresholdOn      : configurationsData!.thresholdOff - 1.0,
             thresholdOff     : configurationsData!.thresholdOff - 0.5,
             decisionStrategy : configurationsData!.decisionStrategy,
         });

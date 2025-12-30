@@ -25,9 +25,7 @@ export const espartanThermoService = createApi({
             query           : configurations => ({
                 url    : '/settings/1',
                 method : 'PUT',
-                body   : camelCaseToSnakeCase({
-                    ...configurations,
-                }),
+                body   : camelCaseToSnakeCase(configurations),
             }),
             invalidatesTags : [
                 // @ts-ignore
