@@ -4,7 +4,7 @@ import type { ReactNode, } from 'react';
 import { Provider, } from 'react-redux';
 import { MemoryRouter, } from 'react-router';
 
-import { newsService, sensorService, systemService, tflService, espartanThermoService, unsplashService, weatherService, } from '../apis';
+import { newsService, systemService, tflService, espartanThermoService, unsplashService, weatherService, } from '../apis';
 import { hangmanReducer, } from '../states/hangmanSlice';
 import { mastermindReducer, } from '../states/mastermindSlice';
 import { memoryReducer, } from '../states/memorySlice';
@@ -17,13 +17,12 @@ export const createStore = (preloadedState? : unknown) => configureStore({
         memory                                : memoryReducer,
         [ espartanThermoService.reducerPath ] : espartanThermoService.reducer,
         [ newsService.reducerPath           ] : newsService.reducer,
-        [ sensorService.reducerPath         ] : sensorService.reducer,
         [ systemService.reducerPath         ] : systemService.reducer,
         [ tflService.reducerPath            ] : tflService.reducer,
         [ unsplashService.reducerPath       ] : unsplashService.reducer,
         [ weatherService.reducerPath        ] : weatherService.reducer,
     },
-    middleware : getDefaultMiddleware => getDefaultMiddleware().concat(newsService.middleware, sensorService.middleware, systemService.middleware, tflService.middleware, espartanThermoService.middleware, unsplashService.middleware, weatherService.middleware),
+    middleware : getDefaultMiddleware => getDefaultMiddleware().concat(newsService.middleware, systemService.middleware, tflService.middleware, espartanThermoService.middleware, unsplashService.middleware, weatherService.middleware),
 });
 
 export const defaultStore = createStore();

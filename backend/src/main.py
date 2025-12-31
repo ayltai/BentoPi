@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sentry_sdk import init
 
-from .routers import sensors, system
+from .routers import system
 
 load_dotenv()
 
@@ -24,7 +24,6 @@ class SpaStaticFiles(StaticFiles):
 init(dsn=getenv('SENTRY_DSN'), send_default_pii=True)
 
 app = FastAPI(title='BentoPi API', version='v1')
-app.include_router(sensors.router)
 app.include_router(system.router)
 app.add_middleware(CORSMiddleware, allow_headers=['*'], allow_methods=['*'], allow_origins=['*'])
 

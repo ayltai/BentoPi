@@ -1,14 +1,9 @@
 import { ArrowLeftOutlined, } from '@ant-design/icons';
-import { faDroplet, faTemperatureFull, } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon, } from '@fortawesome/react-fontawesome';
 import { Button, Flex, theme, Typography, } from 'antd';
-import { useEffect, } from 'react';
 import { useTranslation, } from 'react-i18next';
 import { useNavigate, useLocation, } from 'react-router';
 
-import { useGetHumidityQuery, useGetTemperatureQuery ,} from '../apis';
-import { INTERVAL_HUMIDITY_UPDATE, INTERVAL_TEMPERATURE_UPDATE, SCREEN_WIDTH, TOP_BAR_HEIGHT, } from '../constants';
-import { handleError, } from '../utils';
+import { SCREEN_WIDTH, TOP_BAR_HEIGHT, } from '../constants';
 import { Clock, } from './Clock';
 
 const APP_LINKS : Record<string, number> = {
@@ -28,22 +23,6 @@ const GAME_LINKS : Record<string, number> = {
 };
 
 export const TopBar = () => {
-    const { data : temperatureData, error : temperatureError, } = useGetTemperatureQuery(undefined, {
-        pollingInterval : INTERVAL_TEMPERATURE_UPDATE,
-    });
-
-    const { data : humidityData, error : humidityError, } = useGetHumidityQuery(undefined, {
-        pollingInterval : INTERVAL_HUMIDITY_UPDATE,
-    });
-
-    useEffect(() => {
-        if (temperatureError) handleError(temperatureError);
-    }, [ temperatureError, ]);
-
-    useEffect(() => {
-        if (humidityError) handleError(humidityError);
-    }, [ humidityError, ]);
-
     const navigate = useNavigate();
     const location = useLocation();
     const token    = theme.useToken();
@@ -101,22 +80,6 @@ export const TopBar = () => {
                     flexGrow     : 1,
                     alignContent : 'center',
                 }}>
-                    {temperatureData && (
-                        <Typography.Text style={{
-                            fontSize : '0.85em',
-                        }}>
-                            <FontAwesomeIcon icon={faTemperatureFull} />
-                            {`${temperatureData.toFixed(0)}° `}
-                        </Typography.Text>
-                    )}
-                    {humidityData && (
-                        <Typography.Text style={{
-                            fontSize : '0.85em',
-                        }}>
-                            <FontAwesomeIcon icon={faDroplet} />
-                            {`${humidityData.toFixed(0)}% `}
-                        </Typography.Text>
-                    )}
                     <Clock />
                 </div>
             </div>

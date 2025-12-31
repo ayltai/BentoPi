@@ -2,7 +2,7 @@ import { combineReducers, configureStore, } from '@reduxjs/toolkit';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE, } from 'redux-persist';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 
-import { newsService, sensorService, systemService, tflService, espartanThermoService, unsplashService, weatherService, } from '../apis';
+import { newsService, systemService, tflService, espartanThermoService, unsplashService, weatherService, } from '../apis';
 import { hangmanReducer, } from './hangmanSlice';
 import { mastermindReducer, } from './mastermindSlice';
 import { memoryReducer, } from './memorySlice';
@@ -21,7 +21,6 @@ const makeStore = () => configureStore({
         storage,
         blacklist : [
             newsService.reducerPath,
-            sensorService.reducerPath,
             systemService.reducerPath,
             tflService.reducerPath,
             espartanThermoService.reducerPath,
@@ -34,7 +33,6 @@ const makeStore = () => configureStore({
         memory                                : memoryReducer,
         [ espartanThermoService.reducerPath ] : espartanThermoService.reducer,
         [ newsService.reducerPath           ] : newsService.reducer,
-        [ sensorService.reducerPath         ] : sensorService.reducer,
         [ systemService.reducerPath         ] : systemService.reducer,
         [ tflService.reducerPath            ] : tflService.reducer,
         [ unsplashService.reducerPath       ] : unsplashService.reducer,
@@ -51,7 +49,7 @@ const makeStore = () => configureStore({
                 REHYDRATE,
             ],
         },
-    }).concat(newsService.middleware, sensorService.middleware, systemService.middleware, tflService.middleware, espartanThermoService.middleware, unsplashService.middleware, weatherService.middleware),
+    }).concat(newsService.middleware, systemService.middleware, tflService.middleware, espartanThermoService.middleware, unsplashService.middleware, weatherService.middleware),
     devTools  : import.meta.env.DEV,
 });
 
