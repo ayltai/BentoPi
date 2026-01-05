@@ -123,10 +123,10 @@ export const HeatingScreen = () => {
                         subArcs    : [
                             {
                                 color : '#004ba0',
-                                limit : 15,
+                                limit : 16,
                             }, {
                                 color : '#00600f',
-                                limit : 25,
+                                limit : 20,
                             }, {
                                 color : '#9a0007',
                             },
