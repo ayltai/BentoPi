@@ -21,7 +21,7 @@ class SpaStaticFiles(StaticFiles):
         return full_path, stat_result
 
 
-init(dsn=getenv('SENTRY_DSN'), send_default_pii=True)
+init(dsn=getenv('SENTRY_DSN'))
 
 app = FastAPI(title='BentoPi API', version='v1')
 app.include_router(system.router)

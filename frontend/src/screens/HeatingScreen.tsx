@@ -12,8 +12,9 @@ import { handleError, } from '../utils';
 
 const ORDER = [
     'Entrance',
-    'Living Room',
     'Kitchen',
+    'Living Room',
+    'Guest Room',
     'Harold',
     'Loft',
 ];
@@ -114,7 +115,7 @@ export const HeatingScreen = () => {
         <Row>
             <Col
                 style={{
-                    marginTop : 16,
+                    marginTop : 24,
                 }}
                 span={13}>
                 <GaugeComponent
@@ -188,7 +189,7 @@ export const HeatingScreen = () => {
             </Col>
             <Col
                 style={{
-                    paddingTop   : 16,
+                    paddingTop   : 12,
                     paddingRight : 8,
                 }}
                 span={11}>
@@ -217,7 +218,7 @@ export const HeatingScreen = () => {
                     </Row>
                     <Divider
                         style={{
-                            marginTop    : 8,
+                            marginTop    : 4,
                             marginBottom : 8,
                             borderColor  : '#263238',
                         }}
@@ -238,14 +239,14 @@ export const HeatingScreen = () => {
                             align='middle'>
                             <Col span={10}>
                                 <Typography.Text style={{
-                                    fontSize : '0.85em',
+                                    fontSize : '0.8em',
                                 }}>
                                     {device.displayName}
                                 </Typography.Text>
                             </Col>
                             <Col span={8}>
                                 <Typography.Text style={{
-                                    fontSize : '0.85em',
+                                    fontSize : '0.8em',
                                 }}>
                                     <FontAwesomeIcon
                                         size='sm'
@@ -255,7 +256,7 @@ export const HeatingScreen = () => {
                             </Col>
                             <Col span={6}>
                                 <Typography.Text style={{
-                                    fontSize : '0.85em',
+                                    fontSize : '0.8em',
                                 }}>
                                     <FontAwesomeIcon
                                         size='sm'
@@ -284,7 +285,7 @@ export const HeatingScreen = () => {
                                     span={6}>
                                     <Button
                                         disabled={isUpdatingConfigurations || configurationsData.thresholdOn <= HEATING_TEMPERATURE_MIN}
-                                        size='large'
+                                        size='middle'
                                         icon={
                                             <CaretDownFilled style={{
                                                 fontSize : '1.2em',
@@ -299,14 +300,14 @@ export const HeatingScreen = () => {
                                     }}
                                     span={12}>
                                     <Typography.Text style={{
-                                        fontSize : '0.85em',
+                                        fontSize : '0.8em',
                                     }}>
                                         {t('label_heating_target')}
                                     </Typography.Text>
                                     <Typography.Text style={{
                                         marginTop    : 0,
                                         marginBottom : 0,
-                                        fontSize     : '1.4em',
+                                        fontSize     : '1.25em',
                                         fontWeight   : 'bold',
                                         lineHeight   : 1,
                                     }}>
@@ -322,7 +323,7 @@ export const HeatingScreen = () => {
                                     span={6}>
                                     <Button
                                         disabled={isUpdatingConfigurations || configurationsData.thresholdOn >= HEATING_TEMPERATURE_MAX}
-                                        size='large'
+                                        size='middle'
                                         icon={
                                             <CaretUpFilled style={{
                                                 fontSize : '1.2em',
@@ -343,7 +344,7 @@ export const HeatingScreen = () => {
                                     }}
                                     span={8}>
                                     <Typography.Text style={{
-                                        fontSize : '0.85em',
+                                        fontSize : '0.8em',
                                     }}>
                                         {t('label_heating_decision_strategy')}
                                     </Typography.Text>
