@@ -3,9 +3,11 @@ import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, R
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 
 import { newsService, systemService, tflService, espartanThermoService, unsplashService, weatherService, } from '../apis';
+import { alarmReducer, } from './alarmSlice';
 import { hangmanReducer, } from './hangmanSlice';
 import { mastermindReducer, } from './mastermindSlice';
 import { memoryReducer, } from './memorySlice';
+import { taskReducer, } from './taskSlice';
 
 const createNoopStorage = () => ({
     getItem    : () => Promise.resolve(null),
@@ -28,9 +30,11 @@ const makeStore = () => configureStore({
             weatherService.reducerPath,
         ],
     }, combineReducers({
+        alarm                                 : alarmReducer,
         hangman                               : hangmanReducer,
         mastermind                            : mastermindReducer,
         memory                                : memoryReducer,
+        task                                  : taskReducer,
         [ espartanThermoService.reducerPath ] : espartanThermoService.reducer,
         [ newsService.reducerPath           ] : newsService.reducer,
         [ systemService.reducerPath         ] : systemService.reducer,

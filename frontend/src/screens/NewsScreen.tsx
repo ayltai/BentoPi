@@ -51,7 +51,8 @@ export const NewsScreen = () => {
                             ) : undefined}>
                             <List.Item.Meta
                                 style={{
-                                    marginRight : 8,
+                                    marginBlockEnd : 8,
+                                    marginRight    : 8,
                                 }}
                                 title={item.title}
                                 description={item.description} />

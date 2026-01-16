@@ -9,7 +9,7 @@ import { RouterProvider, } from 'react-router/dom';
 import { useGetWeatherQuery, } from './apis';
 import { IdleManager, TopBar, } from './components';
 import { INTERVAL_WEATHER_UPDATE, LOCATION_LATITUDE, LOCATION_LONGITUDE, LOCATION_TIMEZONE, SCREEN_WIDTH, TOP_BAR_HEIGHT, } from './constants';
-import { CamerasScreen, ClockScreen, DisruptionsScreen, GamesScreen, HangmanGameScreen, HeatingScreen, HomeScreen, MastermindGameScreen, MemoryGameScreen, NewsScreen, SystemScreen, WeatherScreen, } from './screens';
+import { CamerasScreen, ClockScreen, DisruptionsScreen, GamesScreen, HangmanGameScreen, HeatingScreen, HomeScreen, MastermindGameScreen, MemoryGameScreen, NewsScreen, SystemScreen, TasksScreen, TimerScreen, WeatherScreen, } from './screens';
 import { handleError, } from './utils';
 
 const DashboardLayout = () => (
@@ -22,7 +22,7 @@ const DashboardLayout = () => (
         </Layout.Header>
         <Layout.Content>
             <div style={{
-                minHeight : 'calc(100vh - 48px)',
+                minHeight : `calc(100vh - ${TOP_BAR_HEIGHT}px)`,
             }}>
                 <Outlet />
             </div>
@@ -71,6 +71,7 @@ export const App = () => {
             theme={{
                 algorithm  : theme.darkAlgorithm,
                 token      : {
+                    colorPrimary   : '#c67100',
                     borderRadius   : 8,
                     borderRadiusXS : 4,
                     fontSize       : 16,
@@ -80,6 +81,7 @@ export const App = () => {
                         bodyPadding : 8,
                     },
                     Layout : {
+                        headerBg     : '#c67100',
                         headerHeight : TOP_BAR_HEIGHT,
                     },
                     Tabs   : {
@@ -90,17 +92,28 @@ export const App = () => {
             {contextHolder}
             <RouterProvider router={createHashRouter([
                 {
+                    path    : '/',
+                    index   : true,
+                    element : (
+                        <Navigate
+                            replace
+                            to='/dashboard/home' />
+                    ),
+                }, {
+                    path      : '/tasks',
+                    Component : TasksScreen,
+                }, {
+                    Component : DashboardLayout,
+                    children  : [
+                        {
+                            path      : '/timer',
+                            Component : TimerScreen,
+                        },
+                    ],
+                }, {
                     Component : IdleManager,
                     children  : [
                         {
-                            path    : '/',
-                            index   : true,
-                            element : (
-                                <Navigate
-                                    replace
-                                    to='/dashboard/home' />
-                            ),
-                        }, {
                             path      : '/clock',
                             Component : ClockScreen,
                         }, {

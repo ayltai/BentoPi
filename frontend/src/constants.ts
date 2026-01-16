@@ -2,9 +2,10 @@ import { faCloud, faCloudBolt, faCloudMoon, faCloudRain, faCloudShowersHeavy, fa
 
 export const SCREEN_WIDTH   : number = 480;
 export const SCREEN_HEIGHT  : number = 320;
-export const TOP_BAR_HEIGHT : number = 48;
+export const TOP_BAR_HEIGHT : number = 32;
 
 export const API_ENDPOINT : string = `http://${window.location.hostname}:8000`;
+export const WS_ENDPOINT  : string = `ws://${window.location.hostname}:8000/ws`;
 
 export const API_MAX_RETRIES : number = 5;
 
@@ -13,8 +14,6 @@ export const LOCATION_LONGITUDE : number = 0.211968;
 export const LOCATION_TIMEZONE  : string = 'Europe/London';
 
 export const INTERVAL_TIME_UPDATE        : number = 15000;
-export const INTERVAL_TEMPERATURE_UPDATE : number = 15000;
-export const INTERVAL_HUMIDITY_UPDATE    : number = 300000;
 export const INTERVAL_WEATHER_UPDATE     : number = 900000;
 export const INTERVAL_NEWS_UPDATE        : number = 900000;
 export const INTERVAL_DISRUPTIONS_UPDATE : number = 300000;
@@ -24,7 +23,7 @@ export const INTERVAL_HEATING_UPDATE     : number = 600000;
 export const HEATING_TEMPERATURE_MIN : number = 5;
 export const HEATING_TEMPERATURE_MAX : number = 30;
 
-export const TIMEOUT_IDLE        : number = 120000;
+export const TIMEOUT_IDLE        : number = 300000;
 export const TIMEOUT_SCREENSAVER : number = 1800000;
 
 export const WEATHER_ICONS : Record<number, IconDefinition> = {
@@ -88,3 +87,18 @@ export const NIGHT_WEATHER_ICONS : Record<number, IconDefinition> = {
     96 : faCloudBolt,
     99 : faCloudBolt,
 };
+
+export const ALARM_TRACKS : string[] = [
+    'Alarm Beep',
+    'Alarm Clock',
+    'Bedside Clock Alarm',
+    'Clock Chimes',
+    'Cuckoo',
+    'Morning Joy',
+    'Oversimplified Alarm Clock',
+    'Retro Digital Alarm Clock',
+    'Ringtone 003',
+    'Ringtone 013',
+    'Rooster',
+    'Space Shooter',
+];

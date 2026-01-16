@@ -1,7 +1,6 @@
-
-import { FireFilled, ReadFilled, SettingFilled, SmileFilled, SunFilled, VideoCameraFilled,  WarningFilled, } from '@ant-design/icons';
+import { ClockCircleFilled, FireFilled, ReadFilled, SettingFilled, SmileFilled, SunFilled, VideoCameraFilled,  WarningFilled, } from '@ant-design/icons';
 import { Button, Flex, Typography, } from 'antd';
-import { type ReactElement, } from 'react';
+import type { ReactElement, } from 'react';
 import { useTranslation, } from 'react-i18next';
 import { useNavigate, } from 'react-router';
 
@@ -34,6 +33,11 @@ const ICONS : ReactElement[] = [
             fontSize : ICON_SIZE,
         }}
         key='games' />,
+    <ClockCircleFilled
+        style={{
+            fontSize : ICON_SIZE,
+        }}
+        key='timer' />,
     <VideoCameraFilled
         style={{
             fontSize : ICON_SIZE,
@@ -63,7 +67,7 @@ export const HomeScreen = () => {
             {(t('apps', {
                 returnObjects : true,
             }) as string[]).map((app, index) => {
-                const handleClick = () => navigate(`/dashboard/${app.toLowerCase()}`);
+                const handleClick = () => navigate(app === 'Timer' ? '/timer' : `/dashboard/${app.toLowerCase()}`);
 
                 return (
                     <Flex

@@ -1,12 +1,16 @@
-import { Descriptions, Typography, } from 'antd';
+import { Descriptions, Select, Typography, } from 'antd';
 import { useEffect, } from 'react';
 import { useTranslation, } from 'react-i18next';
 
-import { INTERVAL_SYSTEM_UPDATE, } from '../constants';
 import { useGetCpuFrequencyQuery, useGetCpuTemperatureQuery, useGetCpuVoltageQuery, useGetDiskTotalQuery, useGetDiskUsageQuery, useGetMemoryTotalQuery, useGetMemoryUsageQuery, } from '../apis';
+import { ALARM_TRACKS, INTERVAL_SYSTEM_UPDATE, } from '../constants';
+import { useAppDispatch, useAppSelector, } from '../hooks';
+import { setTrack, } from '../states/alarmSlice';
 import { handleError, } from '../utils';
 
 export const SystemScreen = () => {
+    const { track, } = useAppSelector(state => state.alarm);
+
     const { data : temperatureData, error : temperatureError, } = useGetCpuTemperatureQuery(undefined, {
         pollingInterval : INTERVAL_SYSTEM_UPDATE,
     });
@@ -35,7 +39,11 @@ export const SystemScreen = () => {
         pollingInterval : INTERVAL_SYSTEM_UPDATE,
     });
 
+    const dispatch = useAppDispatch();
+
     const { t, } = useTranslation();
+
+    const handleAlarmTrackChange = (value: string) => dispatch(setTrack(value));
 
     useEffect(() => {
         if (temperatureError) handleError(temperatureError);
@@ -67,9 +75,6 @@ export const SystemScreen = () => {
 
     return (
         <Descriptions
-            style={{
-                margin : 8,
-            }}
             bordered
             items={[
                 {
@@ -127,6 +132,21 @@ export const SystemScreen = () => {
                         <Typography.Text>
                             {diskUsageData ? `${diskUsageData.toFixed(0)} %` : ''}
                         </Typography.Text>
+                    ),
+                }, {
+                    key      : 'alarm_track',
+                    label    : t('label_system_alarm_sound'),
+                    children : (
+                        <Select
+                            style={{
+                                width : 240,
+                            }}
+                            options={ALARM_TRACKS.map(alarmTrack => ({
+                                label : alarmTrack,
+                                value : alarmTrack,
+                            }))}
+                            value={track}
+                            onChange={handleAlarmTrackChange} />
                     ),
                 },
             ]} />

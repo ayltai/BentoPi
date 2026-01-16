@@ -115,13 +115,17 @@ export const HeatingScreen = () => {
         <Row>
             <Col
                 style={{
-                    marginTop : 24,
+                    marginTop    : 24,
+                    paddingLeft  : 8,
+                    paddingRight : 8,
                 }}
-                span={13}>
+                span={12}>
                 <GaugeComponent
                     type='radial'
                     arc={{
-                        subArcs    : [
+                        cornerRadius : 9,
+                        padding      : 0.03,
+                        subArcs      : [
                             {
                                 color : '#004ba0',
                                 limit : 16,
@@ -136,10 +140,11 @@ export const HeatingScreen = () => {
                     labels={{
                         tickLabels : {
                             type                   : 'inner',
+                            autoSpaceTickLabels    : true,
                             defaultTickValueConfig : {
                                 formatTextValue : (value : number) => `${value.toFixed(0)} °C`,
                                 style           : {
-                                    fontSize : '0.6em',
+                                    fontSize : 9,
                                 },
                             },
                             ticks                  : [
@@ -175,13 +180,17 @@ export const HeatingScreen = () => {
                             ],
                         },
                         valueLabel : {
-                            formatTextValue : (value : number) => `${value.toFixed(1)} °C`,
+                            animateValue     : true,
+                            formatTextValue  : (value : number) => `${value.toFixed(1)} °C`,
                             maxDecimalDigits : 1,
                             style            : {
                                 fontSize   : 36,
                                 fontWeight : 'bold',
                             },
                         },
+                    }}
+                    pointer={{
+                        animate : true,
                     }}
                     minValue={5}
                     maxValue={40}
@@ -192,7 +201,7 @@ export const HeatingScreen = () => {
                     paddingTop   : 12,
                     paddingRight : 8,
                 }}
-                span={11}>
+                span={12}>
                 <Flex vertical>
                     <Row>
                         <Col

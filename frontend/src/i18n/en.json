@@ -6,6 +6,7 @@
         "News",
         "Disruptions",
         "Games",
+        "Timer",
         "Security",
         "System"
     ],
@@ -27,6 +28,14 @@
     "label_system_memory_usage"             : "Memory Usage",
     "label_system_disk_total"               : "Total Disk Space",
     "label_system_disk_usage"               : "Disk Usage",
+    "label_system_alarm_sound"              : "Alarm Sound",
+    "label_task_title"                      : "Tasks",
+    "label_task_add"                        : "Create task",
+    "label_task_description"                : "Title",
+    "label_task_time_limit"                 : "Time limit (minutes)",
+    "label_task_delete_title"               : "Delete task",
+    "label_task_delete_message"             : "Are you sure you want to delete this task?",
+    "label_task_sent"                       : "Task sent!",
     "alert_rain"                            : "Rain Alert",
     "alert_snow"                            : "Snow Alert",
     "incoming_rain_one"                     : "Possible rain in the next {{count}} minute",
@@ -42,6 +51,9 @@
     "empty_disruptions"                     : "No disruptions reported",
     "empty_news_feed"                       : "No news available",
     "empty_weather_data"                    : "No weather data available",
+    "empty_tasks"                           : "You haven't added any tasks yet",
+    "error_task_title"                      : "Please enter a task title",
+    "error_task_time_limit"                 : "Please enter a valid time limit",
     "weather_code_0"                        : "Clear sky",
     "weather_code_1"                        : "Mostly clear",
     "weather_code_2"                        : "Partly cloudy",
@@ -72,5 +84,7 @@
     "weather_code_99"                       : "Thunderstorm with heavy hail",
     "action_restart"                        : "Restart",
     "action_guess"                          : "Guess",
-    "action_clear"                          : "Clear"
+    "action_clear"                          : "Clear",
+    "action_cancel"                         : "Cancel",
+    "action_save"                           : "Save"
 }

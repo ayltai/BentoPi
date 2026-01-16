@@ -12,8 +12,9 @@ const APP_LINKS : Record<string, number> = {
     '/dashboard/news'        : 2,
     '/dashboard/disruptions' : 3,
     '/dashboard/games'       : 4,
-    '/dashboard/security'    : 5,
-    '/dashboard/system'      : 6,
+    '/timer'                 : 5,
+    '/dashboard/security'    : 6,
+    '/dashboard/system'      : 7,
 };
 
 const GAME_LINKS : Record<string, number> = {

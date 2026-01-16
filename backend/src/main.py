@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from os import getenv, path
 from sys import argv
 
@@ -5,9 +6,11 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from pygame import mixer
 from sentry_sdk import init
 
-from .routers import system
+from .media.audio_controller import AudioController
+from .routers import music, system, websocket
 
 load_dotenv()
 
@@ -21,10 +24,23 @@ class SpaStaticFiles(StaticFiles):
         return full_path, stat_result
 
 
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    _ = AudioController()
+
+    yield
+
+    mixer.quit()
+
+
 init(dsn=getenv('SENTRY_DSN'))
 
-app = FastAPI(title='BentoPi API', version='v1')
+app = FastAPI(title='BentoPi API', version='v1', lifespan=lifespan)
+
+app.include_router(music.router)
 app.include_router(system.router)
+app.include_router(websocket.router)
+
 app.add_middleware(CORSMiddleware, allow_headers=['*'], allow_methods=['*'], allow_origins=['*'])
 
 if argv[1] != 'dev':

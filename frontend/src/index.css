@@ -1,12 +1,3 @@
 html, body {
     overflow-x: hidden;
 }
-
-.ant-list-item-action {
-    margin-block-start: 8px !important;
-    margin-inline-start: 0 !important;
-}
-
-.ant-list-item-meta {
-    margin-block-end: 8px !important;
-}

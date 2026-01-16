@@ -33,7 +33,11 @@ export const DisruptionsScreen = () => {
                     }))}
                     renderItem={item => (
                         <List.Item>
-                            <List.Item.Meta title={item.title} />
+                            <List.Item.Meta
+                                style={{
+                                    marginBlockEnd : 8,
+                                }}
+                                title={item.title} />
                         </List.Item>
                     )} />
             )}
