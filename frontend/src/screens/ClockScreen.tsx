@@ -34,8 +34,8 @@ export const ClockScreen = () => {
             <Layout.Content>
                 <Flex
                     style={{
-                        marginTop       : 104,
-                        marginBottom    : 104,
+                        marginTop       : 72,
+                        marginBottom    : 80,
                         backgroundColor : 'black',
                     }}
                     vertical
@@ -43,9 +43,9 @@ export const ClockScreen = () => {
                     justify='center'>
                     <Typography.Title
                         style={{
-                            margin : 8,
-                        }}
-                        level={3}>
+                            margin   : 8,
+                            fontSize : '2.75em',
+                        }}>
                         {time.toLocaleString('en-GB', {
                             weekday : 'short',
                             day     : 'numeric',
@@ -54,7 +54,8 @@ export const ClockScreen = () => {
                         })}
                     </Typography.Title>
                     <Typography.Title style={{
-                        margin : 8,
+                        margin   : 8,
+                        fontSize : '5em',
                     }}>
                         {time.toLocaleString('en-GB', {
                             hour    : 'numeric',

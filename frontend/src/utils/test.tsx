@@ -5,16 +5,20 @@ import { Provider, } from 'react-redux';
 import { MemoryRouter, } from 'react-router';
 
 import { newsService, systemService, tflService, espartanThermoService, unsplashService, weatherService, } from '../apis';
+import { alarmReducer, } from '../states/alarmSlice';
 import { hangmanReducer, } from '../states/hangmanSlice';
 import { mastermindReducer, } from '../states/mastermindSlice';
 import { memoryReducer, } from '../states/memorySlice';
+import { taskReducer, } from '../states/taskSlice';
 
 export const createStore = (preloadedState? : unknown) => configureStore({
     preloadedState,
     reducer    : {
+        alarm                                 : alarmReducer,
         hangman                               : hangmanReducer,
         mastermind                            : mastermindReducer,
         memory                                : memoryReducer,
+        task                                  : taskReducer,
         [ espartanThermoService.reducerPath ] : espartanThermoService.reducer,
         [ newsService.reducerPath           ] : newsService.reducer,
         [ systemService.reducerPath         ] : systemService.reducer,
