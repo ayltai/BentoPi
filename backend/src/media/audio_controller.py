@@ -26,6 +26,7 @@ class AudioController:
         try:
             mixer.music.load(file_path)
             mixer.music.play(loops=-1)
+        # pylint: disable=broad-except
         except Exception as e:
             log_error(e)
 

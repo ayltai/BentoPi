@@ -88,6 +88,8 @@ export const NIGHT_WEATHER_ICONS : Record<number, IconDefinition> = {
     99 : faCloudBolt,
 };
 
+export const LOCALE : string = 'en-GB';
+
 export const ALARM_TRACKS : string[] = [
     'Alarm Beep',
     'Alarm Clock',

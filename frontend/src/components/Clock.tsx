@@ -1,7 +1,7 @@
 import { Typography, } from 'antd';
 import { useEffect, useState, } from 'react';
 
-import { INTERVAL_TIME_UPDATE, } from '../constants';
+import { INTERVAL_TIME_UPDATE, LOCALE, } from '../constants';
 
 export const Clock = () => {
     const [ time, setTime, ] = useState<Date>(new Date());
@@ -16,7 +16,7 @@ export const Clock = () => {
         <Typography.Text style={{
             fontSize : '0.85em',
         }}>
-            {time.toLocaleString('en-GB', {
+            {time.toLocaleString(LOCALE, {
                 weekday : 'short',
                 day     : 'numeric',
                 month   : 'short',

@@ -1,11 +1,23 @@
+import { FontAwesomeIcon, } from '@fortawesome/react-fontawesome';
 import { Flex, Layout, Typography, } from 'antd';
 import { useEffect, useState, } from 'react';
 
-import { INTERVAL_TIME_UPDATE, TIMEOUT_SCREENSAVER, } from '../constants';
+import { useGetWeatherQuery, } from '../apis';
+import { INTERVAL_TIME_UPDATE, INTERVAL_WEATHER_UPDATE, LOCALE, LOCATION_LATITUDE, LOCATION_LONGITUDE, LOCATION_TIMEZONE, NIGHT_WEATHER_ICONS, TIMEOUT_SCREENSAVER, WEATHER_ICONS, } from '../constants';
+import { handleError, } from '../utils';
+
 
 export const ClockScreen = () => {
     const [ time,    setTime,    ] = useState<Date>(new Date());
     const [ opacity, setOpacity, ] = useState<number>(0);
+
+    const { data : weatherData, error : weatherError, } = useGetWeatherQuery({
+        latitude  : LOCATION_LATITUDE,
+        longitude : LOCATION_LONGITUDE,
+        timezone  : LOCATION_TIMEZONE,
+    }, {
+        pollingInterval : INTERVAL_WEATHER_UPDATE,
+    });
 
     useEffect(() => {
         const timer = setInterval(() => setTime(new Date()), INTERVAL_TIME_UPDATE);
@@ -27,6 +39,10 @@ export const ClockScreen = () => {
         return () => clearTimeout(timeout);
     }, []);
 
+    useEffect(() => {
+        if (weatherError) handleError(weatherError);
+    }, [ weatherError, ]);
+
     return (
         <Layout style={{
             backgroundColor : 'black',
@@ -34,19 +50,41 @@ export const ClockScreen = () => {
             <Layout.Content>
                 <Flex
                     style={{
-                        marginTop       : 72,
-                        marginBottom    : 80,
+                        marginTop       : 40,
+                        marginBottom    : 48,
                         backgroundColor : 'black',
                     }}
                     vertical
                     align='center'
                     justify='center'>
+                    <Flex
+                        style={{
+                            margin : 16,
+                        }}
+                        align='center'
+                        justify='center'
+                        gap={16}>
+                        {weatherData?.currently.weatherCode && (
+                            <FontAwesomeIcon
+                                size='2x'
+                                icon={weatherData.currently.isDay ? WEATHER_ICONS[weatherData.currently.weatherCode] : NIGHT_WEATHER_ICONS[weatherData.currently.weatherCode]} />
+                        )}
+                        {weatherData && (
+                            <Typography.Title
+                                style={{
+                                    margin : 0,
+                                }}
+                                level={2}>
+                                {`${weatherData.currently.temperature.toFixed(0)}°`}
+                            </Typography.Title>
+                        )}
+                    </Flex>
                     <Typography.Title
                         style={{
-                            margin   : 8,
-                            fontSize : '2.75em',
-                        }}>
-                        {time.toLocaleString('en-GB', {
+                            margin : 8,
+                        }}
+                        level={1}>
+                        {time.toLocaleString(LOCALE, {
                             weekday : 'short',
                             day     : 'numeric',
                             month   : 'short',
@@ -57,7 +95,7 @@ export const ClockScreen = () => {
                         margin   : 8,
                         fontSize : '5em',
                     }}>
-                        {time.toLocaleString('en-GB', {
+                        {time.toLocaleString(LOCALE, {
                             hour    : 'numeric',
                             minute  : '2-digit',
                             hour12  : true,

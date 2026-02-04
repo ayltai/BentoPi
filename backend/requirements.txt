@@ -1,7 +1,7 @@
-fastapi==0.128.0
+fastapi==0.128.2
 httpx==0.28.1
 pygame==2.6.1
 python-dotenv==1.2.1
-sentry-sdk[fastapi]==2.51.0
+sentry-sdk[fastapi]==2.52.0
 smbus2==0.6.0
 uvicorn==0.40.0

@@ -5,7 +5,7 @@ import { useEffect, } from 'react';
 import { useTranslation, } from 'react-i18next';
 
 import { useGetRandomPhotoQuery, useGetWeatherQuery, } from '../apis';
-import { INTERVAL_WEATHER_UPDATE, LOCATION_LATITUDE, LOCATION_LONGITUDE, LOCATION_TIMEZONE, NIGHT_WEATHER_ICONS, WEATHER_ICONS, } from '../constants';
+import { INTERVAL_WEATHER_UPDATE, LOCALE, LOCATION_LATITUDE, LOCATION_LONGITUDE, LOCATION_TIMEZONE, NIGHT_WEATHER_ICONS, TOP_BAR_HEIGHT, WEATHER_ICONS, } from '../constants';
 import { handleError, } from '../utils';
 
 const TRANSPARENCY : number = 0.65;
@@ -38,7 +38,7 @@ export const WeatherScreen = () => {
     return (
         <div style={{
             height             : '100%',
-            minHeight          : 'calc(100vh - 48px)',
+            minHeight          : `calc(100vh - ${TOP_BAR_HEIGHT}px)`,
             backgroundImage    : photoData ? `url(${photoData})` : undefined,
             backgroundPosition : 'center',
             backgroundRepeat   : 'no-repeat',
@@ -282,7 +282,7 @@ export const WeatherScreen = () => {
                                         <Typography.Text style={{
                                             textShadow : '1px 2px 4px black',
                                         }}>
-                                            {new Date(day.time * 1000).toLocaleDateString('en-GB', {
+                                            {new Date(day.time * 1000).toLocaleDateString(LOCALE, {
                                                 weekday : 'short',
                                                 day     : 'numeric',
                                             })}
