@@ -21,8 +21,8 @@ export const WeatherScreen = () => {
 
     const { t, } = useTranslation();
 
-    const { data : photoData, error : photoError, isLoading, isUninitialized, } = useGetRandomPhotoQuery(weatherData?.currently?.weatherCode === 1 ? 'Clear sky' : t(`weather_code_${weatherData?.currently?.weatherCode}`), {
-        skip : !weatherData?.currently?.weatherCode,
+    const { data : photoData, error : photoError, isLoading, isUninitialized, } = useGetRandomPhotoQuery(weatherData?.currently?.weatherCode === undefined ? 'Clear sky' : t(`weather_code_${weatherData?.currently?.weatherCode}`), {
+        skip : weatherData?.currently?.weatherCode === undefined,
     });
 
     const token = theme.useToken();
@@ -80,7 +80,7 @@ export const WeatherScreen = () => {
                                             alignContent : 'center',
                                         }}
                                         span={8}>
-                                        {weatherData.currently.weatherCode && (
+                                        {weatherData.currently.weatherCode !== undefined && (
                                             <FontAwesomeIcon
                                                 style={{
                                                     filter : 'drop-shadow(1px 2px 4px black)',
@@ -198,7 +198,7 @@ export const WeatherScreen = () => {
                                         </Typography.Text>
                                     </Col>
                                     <Col span={3}>
-                                        {hour.weatherCode && (
+                                        {hour.weatherCode !== undefined && (
                                             <FontAwesomeIcon
                                                 style={{
                                                     filter : 'drop-shadow(1px 2px 4px black)',
@@ -292,7 +292,7 @@ export const WeatherScreen = () => {
                                         padding        : 2,
                                         justifyContent : 'center',
                                     }}>
-                                        {day.weatherCode && (
+                                        {day.weatherCode !== undefined && (
                                             <FontAwesomeIcon
                                                 style={{
                                                     filter : 'drop-shadow(1px 2px 4px black)',

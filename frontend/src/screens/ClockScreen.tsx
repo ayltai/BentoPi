@@ -64,7 +64,7 @@ export const ClockScreen = () => {
                         align='center'
                         justify='center'
                         gap={16}>
-                        {weatherData?.currently.weatherCode && (
+                        {weatherData?.currently.weatherCode !== undefined && (
                             <FontAwesomeIcon
                                 size='2x'
                                 icon={weatherData.currently.isDay ? WEATHER_ICONS[weatherData.currently.weatherCode] : NIGHT_WEATHER_ICONS[weatherData.currently.weatherCode]} />
