@@ -1,6 +1,6 @@
 import { combineReducers, configureStore, } from '@reduxjs/toolkit';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE, } from 'redux-persist';
-import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
+import createWebStorage from 'redux-persist/es/storage/createWebStorage';
 
 import { newsService, systemService, tflService, espartanThermoService, unsplashService, weatherService, } from '../apis';
 import { alarmReducer, } from './alarmSlice';
