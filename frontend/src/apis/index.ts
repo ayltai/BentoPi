@@ -1,4 +1,4 @@
-export { espartanThermoService, useGetConfigurationsQuery, useGetCurrentStateQuery, useGetDevicesQuery, useGetTelemetryQuery, useSetConfigurationsMutation, } from './espartanThermoService.ts';
+export { thermostatService, useGetTelemetryQuery, useGetThermostatQuery, useSetTargetTemperatureMutation, } from './thermostatService.ts';
 export { newsService, useGetNewsQuery, } from './newsService';
 export { systemService, useGetCpuFrequencyQuery, useGetCpuTemperatureQuery, useGetCpuVoltageQuery, useGetDiskTotalQuery, useGetDiskUsageQuery, useGetMemoryTotalQuery, useGetMemoryUsageQuery, } from './systemService';
 export { tflService, useGetDisruptionsQuery, } from './tflService';

@@ -1,3 +1,2 @@
-export type { Configuration, } from './Configuration';
-export type { Device, } from './Device';
-export type { Telemetry, } from './Telemetry';
+export type { Entity, } from './Entity';
+export type { Thermostat, } from './Thermostat';

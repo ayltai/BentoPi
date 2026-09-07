@@ -1,4 +1,4 @@
-export type { Configuration, Device, Telemetry, } from './heating';
+export type { Entity, Thermostat, } from './heating';
 export type { Location, } from './Location';
 export type { default as News, } from './news';
 export type { default as Task, } from './task';

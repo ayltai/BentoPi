@@ -2,7 +2,7 @@ import { combineReducers, configureStore, } from '@reduxjs/toolkit';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE, } from 'redux-persist';
 import createWebStorage from 'redux-persist/es/storage/createWebStorage';
 
-import { newsService, systemService, tflService, espartanThermoService, unsplashService, weatherService, } from '../apis';
+import { newsService, systemService, tflService, thermostatService, unsplashService, weatherService, } from '../apis';
 import { alarmReducer, } from './alarmSlice';
 import { hangmanReducer, } from './hangmanSlice';
 import { mastermindReducer, } from './mastermindSlice';
@@ -25,22 +25,22 @@ const makeStore = () => configureStore({
             newsService.reducerPath,
             systemService.reducerPath,
             tflService.reducerPath,
-            espartanThermoService.reducerPath,
+            thermostatService.reducerPath,
             unsplashService.reducerPath,
             weatherService.reducerPath,
         ],
     }, combineReducers({
-        alarm                                 : alarmReducer,
-        hangman                               : hangmanReducer,
-        mastermind                            : mastermindReducer,
-        memory                                : memoryReducer,
-        task                                  : taskReducer,
-        [ espartanThermoService.reducerPath ] : espartanThermoService.reducer,
-        [ newsService.reducerPath           ] : newsService.reducer,
-        [ systemService.reducerPath         ] : systemService.reducer,
-        [ tflService.reducerPath            ] : tflService.reducer,
-        [ unsplashService.reducerPath       ] : unsplashService.reducer,
-        [ weatherService.reducerPath        ] : weatherService.reducer,
+        alarm                             : alarmReducer,
+        hangman                           : hangmanReducer,
+        mastermind                        : mastermindReducer,
+        memory                            : memoryReducer,
+        task                              : taskReducer,
+        [ thermostatService.reducerPath ] : thermostatService.reducer,
+        [ newsService.reducerPath       ] : newsService.reducer,
+        [ systemService.reducerPath     ] : systemService.reducer,
+        [ tflService.reducerPath        ] : tflService.reducer,
+        [ unsplashService.reducerPath   ] : unsplashService.reducer,
+        [ weatherService.reducerPath    ] : weatherService.reducer,
     })),
     middleware : getDefaultMiddleware => getDefaultMiddleware({
         serializableCheck : {
@@ -53,7 +53,7 @@ const makeStore = () => configureStore({
                 REHYDRATE,
             ],
         },
-    }).concat(newsService.middleware, systemService.middleware, tflService.middleware, espartanThermoService.middleware, unsplashService.middleware, weatherService.middleware),
+    }).concat(newsService.middleware, systemService.middleware, tflService.middleware, thermostatService.middleware, unsplashService.middleware, weatherService.middleware),
     devTools  : import.meta.env.DEV,
 });
 
