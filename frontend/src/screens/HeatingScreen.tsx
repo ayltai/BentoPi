@@ -216,7 +216,7 @@ export const HeatingScreen = () => {
                                     <FontAwesomeIcon
                                         size='sm'
                                         icon={faTemperatureFull} />
-                                    {(devices[order]?.filter(device => device.attributes.deviceClass === 'temperature')?.map(device => Number(device.state))[0]?.toFixed(1)) ?? '-'}°C
+                                    {(devices[order]?.filter(device => device.attributes.deviceClass === 'temperature' && device.state !== 'unavailable')?.map(device => Number(device.state))[0]?.toFixed(1)) ?? '-'}°C
                                 </Typography.Text>
                             </Col>
                             <Col span={6}>
@@ -226,7 +226,7 @@ export const HeatingScreen = () => {
                                     <FontAwesomeIcon
                                         size='sm'
                                         icon={faDroplet} />
-                                    {(devices[order]?.filter(device => device.attributes.deviceClass === 'humidity')?.map(device => Number(device.state))[0]?.toFixed(0)) ?? '-'}%
+                                    {(devices[order]?.filter(device => device.attributes.deviceClass === 'humidity' && device.state !== 'unavailable')?.map(device => Number(device.state))[0]?.toFixed(0)) ?? '-'}%
                                 </Typography.Text>
                             </Col>
                         </Row>

@@ -13,6 +13,7 @@ minimumReleaseAgeExclude:
   - vitest@4.1.7
   - react-router@7.17.0
   - antd@6.6.3
+  - vite@8.3.0
 onlyBuiltDependencies:
   - '@swc/core'
   - esbuild

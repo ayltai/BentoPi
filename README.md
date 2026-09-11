@@ -50,8 +50,11 @@ make
 
 ```sh
 cd frontend
+pnpm i
 pnpm build
 ```
+
+You may need to add `NODE_OPTIONS="--max-old-space-size=384" pnpm build` to limit the memory usage during the build process if you encounter out-of-memory errors.
 
 - The build output will be placed in `frontend/dist/`.
 

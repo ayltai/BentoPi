@@ -1,4 +1,4 @@
-FROM node:22-slim AS build
+FROM node:26-slim AS build
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
@@ -7,7 +7,7 @@ COPY ../frontend .
 RUN pnpm i
 RUN pnpm build
 
-FROM python:3.13-slim-trixie
+FROM python:3.14-slim-trixie
 RUN apt update && apt --no-install-recommends install -y libsdl2-2.0-0 libsdl2-mixer-2.0-0 && apt clean autoclean && apt autoremove -y && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY . .
