@@ -94,7 +94,7 @@ export const HeatingScreen = () => {
                                     limit : 17,
                                 }, {
                                     color : '#00600f',
-                                    limit : 22,
+                                    limit : 25,
                                 }, {
                                     color : '#9a0007',
                                 },
