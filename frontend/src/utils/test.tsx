@@ -4,7 +4,7 @@ import type { ReactNode, } from 'react';
 import { Provider, } from 'react-redux';
 import { MemoryRouter, } from 'react-router';
 
-import { newsService, systemService, tflService, espartanThermoService, unsplashService, weatherService, } from '../apis';
+import { newsService, systemService, tflService, thermostatService, unsplashService, weatherService, } from '../apis';
 import { alarmReducer, } from '../states/alarmSlice';
 import { hangmanReducer, } from '../states/hangmanSlice';
 import { mastermindReducer, } from '../states/mastermindSlice';
@@ -14,19 +14,19 @@ import { taskReducer, } from '../states/taskSlice';
 export const createStore = (preloadedState? : unknown) => configureStore({
     preloadedState,
     reducer    : {
-        alarm                                 : alarmReducer,
-        hangman                               : hangmanReducer,
-        mastermind                            : mastermindReducer,
-        memory                                : memoryReducer,
-        task                                  : taskReducer,
-        [ espartanThermoService.reducerPath ] : espartanThermoService.reducer,
-        [ newsService.reducerPath           ] : newsService.reducer,
-        [ systemService.reducerPath         ] : systemService.reducer,
-        [ tflService.reducerPath            ] : tflService.reducer,
-        [ unsplashService.reducerPath       ] : unsplashService.reducer,
-        [ weatherService.reducerPath        ] : weatherService.reducer,
+        alarm                             : alarmReducer,
+        hangman                           : hangmanReducer,
+        mastermind                        : mastermindReducer,
+        memory                            : memoryReducer,
+        task                              : taskReducer,
+        [ thermostatService.reducerPath ] : thermostatService.reducer,
+        [ newsService.reducerPath       ] : newsService.reducer,
+        [ systemService.reducerPath     ] : systemService.reducer,
+        [ tflService.reducerPath        ] : tflService.reducer,
+        [ unsplashService.reducerPath   ] : unsplashService.reducer,
+        [ weatherService.reducerPath    ] : weatherService.reducer,
     },
-    middleware : getDefaultMiddleware => getDefaultMiddleware().concat(newsService.middleware, systemService.middleware, tflService.middleware, espartanThermoService.middleware, unsplashService.middleware, weatherService.middleware),
+    middleware : getDefaultMiddleware => getDefaultMiddleware().concat(newsService.middleware, systemService.middleware, tflService.middleware, thermostatService.middleware, unsplashService.middleware, weatherService.middleware),
 });
 
 export const defaultStore = createStore();
