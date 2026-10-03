@@ -1,8 +1,12 @@
 # Python
+**/.pytest_cache/
 **/__pycache__/
 
 # VirtualEnv
 venv/
+
+# Secrets
+.env
 
 # Generated
 web/
