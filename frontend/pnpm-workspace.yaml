@@ -12,8 +12,16 @@ minimumReleaseAgeExclude:
   - '@vitest/utils@4.1.7'
   - vitest@4.1.7
   - react-router@7.17.0
-  - antd@6.6.3
+  - antd@6.6.3 || 6.6.4
   - vite@8.3.0
+  - '@sentry/browser-utils@11.4.0'
+  - '@sentry/browser@11.4.0'
+  - '@sentry/core@11.4.0'
+  - '@sentry/feedback@11.4.0'
+  - '@sentry/react@11.4.0'
+  - '@sentry/replay-canvas@11.4.0'
+  - '@sentry/replay@11.4.0'
+  - eslint-plugin-unicorn@77.0.0
 onlyBuiltDependencies:
   - '@swc/core'
   - esbuild
