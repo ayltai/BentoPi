@@ -21,7 +21,7 @@ class DeviceManager:
                 await websocket.send_json(payload)
 
                 return True
-            except WebSocketDisconnect:
+            except (OSError, RuntimeError, WebSocketDisconnect):
                 self.disconnect(device_id)
 
         return False

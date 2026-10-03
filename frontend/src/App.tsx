@@ -7,7 +7,7 @@ import { createHashRouter, Navigate, Outlet, } from 'react-router';
 import { RouterProvider, } from 'react-router/dom';
 
 import { useGetWeatherQuery, } from './apis';
-import { IdleManager, TopBar, } from './components';
+import { AlertOverlay, IdleManager, TopBar, } from './components';
 import { INTERVAL_WEATHER_UPDATE, LOCATION_LATITUDE, LOCATION_LONGITUDE, LOCATION_TIMEZONE, SCREEN_WIDTH, TOP_BAR_HEIGHT, } from './constants';
 import { CamerasScreen, ClockScreen, DisruptionsScreen, GamesScreen, HangmanGameScreen, HeatingScreen, HomeScreen, MastermindGameScreen, MemoryGameScreen, NewsScreen, SystemScreen, TasksScreen, TimerScreen, WeatherScreen, } from './screens';
 import { handleError, } from './utils';
@@ -90,6 +90,7 @@ export const App = () => {
                 },
             }}>
             {contextHolder}
+            <AlertOverlay />
             <RouterProvider router={createHashRouter([
                 {
                     path    : '/',

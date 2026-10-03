@@ -8,7 +8,7 @@ RUN pnpm i
 RUN pnpm build
 
 FROM python:3.14-slim-trixie
-RUN apt update && apt --no-install-recommends install -y libsdl2-2.0-0 libsdl2-mixer-2.0-0 && apt clean autoclean && apt autoremove -y && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt --no-install-recommends install -y libsdl2-2.0-0 libsdl2-mixer-2.0-0 espeak-ng && apt clean autoclean && apt autoremove -y && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY . .
 RUN pip install --no-cache-dir -e .

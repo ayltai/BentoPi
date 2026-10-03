@@ -1,14 +1,24 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
-from ..services import DeviceManager
+from ..services import alert_manager, device_manager
 
-router  = APIRouter(prefix='/ws', tags=['websocket'])
-manager = DeviceManager()
+router = APIRouter(prefix='/ws', tags=['websocket'])
+
+
+@router.websocket('/alerts')
+async def alerts_endpoint(websocket: WebSocket) -> None:
+    await alert_manager.connect(websocket)
+
+    try:
+        while True:
+            await websocket.receive_text()
+    except WebSocketDisconnect:
+        alert_manager.disconnect(websocket)
 
 
 @router.websocket('/{device_id}')
-async def websocket_endpoint(websocket: WebSocket, device_id: str) -> None:
-    await manager.connect(device_id, websocket)
+async def device_endpoint(websocket: WebSocket, device_id: str) -> None:
+    await device_manager.connect(device_id, websocket)
 
     try:
         while True:
@@ -16,6 +26,6 @@ async def websocket_endpoint(websocket: WebSocket, device_id: str) -> None:
             target_id = message.get('target_id')
 
             if target_id:
-                await manager.send(target_id, message.get('payload'))
+                await device_manager.send(target_id, message.get('payload'))
     except WebSocketDisconnect:
-        manager.disconnect(device_id)
+        device_manager.disconnect(device_id)

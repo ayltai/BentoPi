@@ -10,7 +10,7 @@ from pygame import mixer
 from sentry_sdk import init
 
 from .media.audio_controller import AudioController
-from .routers import music, system, websocket
+from .routers import music, system, webhooks, websocket
 
 load_dotenv()
 
@@ -39,6 +39,7 @@ app = FastAPI(title='BentoPi API', version='v1', lifespan=lifespan)
 
 app.include_router(music.router)
 app.include_router(system.router)
+app.include_router(webhooks.router)
 app.include_router(websocket.router)
 
 app.add_middleware(CORSMiddleware, allow_headers=['*'], allow_methods=['*'], allow_origins=['*'])

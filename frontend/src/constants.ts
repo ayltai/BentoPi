@@ -22,6 +22,7 @@ export const INTERVAL_HEATING_UPDATE     : number = 60000;
 
 export const TIMEOUT_IDLE        : number = 300000;
 export const TIMEOUT_SCREENSAVER : number = 1800000;
+export const TIMEOUT_ALERT       : number = 15000;
 
 export const WEATHER_ICONS : Record<number, IconDefinition> = {
     0  : faSun,
