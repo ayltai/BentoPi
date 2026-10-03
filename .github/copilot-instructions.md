@@ -1,4 +1,51 @@
-# Copilot Instructions for BentoPi
+## Guidelines
+
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
+
+Before implementing:
+- State your assumptions explicitly. If uncertain, ask for clarification.
+- If multiple interpretations exist, present them. Don't pick silently.
+- If a simpler approach exists, present it. Don't hide complexity.
+- If something is unclear, stop. Name what's confusing. Ask for clarification. Don't guess silently.
+
+## Solution Approach
+
+- Always start small and simple, and then iterate to improve the solution.
+- Always explain your plans and reasoning before implementing any code.
+- Always prioritise simplicity and efficiency in your solutions, clarity in your code, and maintainability in your implementations.
+- Always ask for clarification if the problem statement is ambiguous or unclear.
+- Always ask for feedback on your solution approach before implementing it.
+- Always implement the solution in thin slices, and test each slice before moving on to the next one.
+
+## Software Engineering Excellence Standards
+
+### Design Principles
+
+- SOLID: Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion.
+- Patterns: Apply recognised design patterns where appropriate, and avoid over-engineering or unnecessary complexity.
+- Clean Code: Enforce DRY, YAGNI, and KISS principles, and avoid code duplication, unnecessary abstractions, and over-engineering.
+- Architecture: Maintain a clear separation of concerns, and avoid tight coupling between components. Use modular design and follow established architectural patterns where appropriate.
+- Security: Implement secure-by-design principles, and avoid introducing security vulnerabilities or risks into the codebase. Follow best practices for secure coding, such as input validation and output encoding, and avoid hardcoding sensitive information or credentials in the codebase.
+
+## Coding Styles
+
+- Always write code in a clear, maintainable, and efficient manner, following best practices and coding standards.
+- Avoid writing comments in the code unless necessary for clarity, and ensure that any comments are concise and informative.
+- Avoid breaking a line of code into multiple lines unless it is necessary for readability or to adhere to coding standards. There is no line length limit.
+- Prefer single quotes for strings unless the string contains a single quote, in which case double quotes should be used.
+- Prefer UI components from Ant Design over custom components and CSS, unless there is a specific reason to use a custom component or CSS.
+- Do not break lines of import statements in React code.
+- Code should be written as simply as possible, and should not wrap function calls in unnecessary abstractions or layers of indirection. Avoid over-engineering and unnecessary complexity.
+
+## Testing
+
+- Write code that is simple, maintainable, and easy to understand so that unit tests are not needed.
+
+## Security
+
+- The solution is intended to be deployed in relatively low-risk environments, such as home or small business networks, and is not designed to withstand sophisticated attacks from highly skilled adversaries. Therefore, the solution may not be suitable for deployment in high-risk environments, such as critical infrastructure or financial systems, where the consequences of a security breach could be severe.
+- Always follow best practices for secure coding, such as input validation, but do not implement overly complex security measures that may introduce unnecessary complexity or performance overhead.
+- Always consider the potential security implications of your code, and ask for feedback if you are aware of any potential security risks or vulnerabilities.
 
 ## Project Overview
 - **BentoPi** is a self-hosted dashboard for Raspberry Pi, aggregating weather, news, transport, and sensor data.
@@ -20,10 +67,6 @@
   - Build frontend, then run backend with `make prod` (serves frontend at `/web`)
 - **Docker:**
   - `cd backend && docker build -t bentopi . && docker run -p 8000:8000 bentopi`
-
-## Testing & Linting
-- **Frontend:** `pnpm test` (Vitest), `pnpm lint` (ESLint, see `eslint.config.js`)
-- **Backend:** `make test` (pytest), `make lint` (autopep8, pycodestyle, pylint)
 
 ## Patterns & Conventions
 - **API endpoints:**
