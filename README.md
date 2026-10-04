@@ -23,6 +23,7 @@ The target is a 3.5" 480x320 touchscreen attached to a Raspberry Pi Zero 2 W, bu
 
 - Node.js >= 22 and pnpm >= 10 for frontend. This project targets Node.js v22 by default as it is the latest LTS version that supports 32-bit ARM architecture commonly used by Raspberry Pi Zero 2 W.
 - Python >= 3.10 for backend. This project targets Python 3.13 by default as it is the version bundled with Raspberry Pi OS Lite (Trixie).
+- `espeak-ng` on the backend host for Home Assistant alert speech. The Docker image installs it automatically.
 
 ### Running the Frontend (Development)
 
@@ -82,6 +83,21 @@ Build and run the complete system using Docker:
 cd backend
 docker build -t bentopi .
 docker run -p 8000:8000 bentopi
+```
+
+### Home Assistant Alerts
+
+BentoPi accepts `POST /api/v1/webhooks/alerts` with a `label` and a directly accessible HTTP(S) `snapshot` URL. The webhook is unauthenticated and intended for a trusted local network. On receipt, BentoPi displays the snapshot for 15 seconds (or until tapped) and speaks the label through the Raspberry Pi speaker.
+
+Configure a Home Assistant REST command:
+
+```yaml
+rest_command:
+	bentopi_alert:
+		url: http://<bentopi-host>:8000/api/v1/webhooks/alerts
+		method: POST
+		content_type: application/json
+		payload: '{"label": "{{ label }}", "snapshot": "{{ snapshot }}"}'
 ```
 
 ## Development Notes
