@@ -20,6 +20,8 @@ const ORDER = [
     'sensor.loft_climate_loft',
 ];
 
+const HEATING_STATE_ID = 'input_boolean.desired_boiler_switch_state';
+
 export const HeatingScreen = () => {
     const [ setTargetTemperature, { isLoading : isUpdatingTargetTemperature, error : setTargetTemperatureError, }, ] = useSetTargetTemperatureMutation();
 
@@ -59,6 +61,10 @@ export const HeatingScreen = () => {
         });
 
         return groupedDevices;
+    }, [ telemetryData, ]);
+
+    const heatingState = useMemo(() => {
+        return telemetryData?.find(telemetry => telemetry.entityId === HEATING_STATE_ID)?.state;
     }, [ telemetryData, ]);
 
     useEffect(() => {
@@ -178,15 +184,15 @@ export const HeatingScreen = () => {
                                 span={24}>
                                 <FontAwesomeIcon
                                     size='lg'
-                                    color={thermostatData.state === 'heat' ? '#d32f2f' : '#546e7a'}
+                                    color={heatingState === 'On' ? '#d32f2f' : '#546e7a'}
                                     icon={faFireFlameCurved} />
                                 <Typography.Text style={{
                                     marginLeft : 8,
-                                    color      : thermostatData.state === 'heat' ? '#d32f2f' : '#546e7a',
+                                    color      : heatingState === 'On' ? '#d32f2f' : '#546e7a',
                                     fontSize   : '1.2em',
                                     fontWeight : 'bold',
                                 }}>
-                                    {t(thermostatData.state === 'heat' ? 'label_heating_status_on' : 'label_heating_status_off')}
+                                    {t(heatingState === 'On' ? 'label_heating_status_on' : 'label_heating_status_off')}
                                 </Typography.Text>
                             </Col>
                         </Row>
