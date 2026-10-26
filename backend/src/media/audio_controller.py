@@ -1,6 +1,6 @@
-from io import BytesIO
 from os import path
 from subprocess import CalledProcessError, TimeoutExpired, run
+from tempfile import NamedTemporaryFile
 from threading import Lock
 
 from pygame import mixer
@@ -46,23 +46,23 @@ class AudioController:
                 AudioController._speech_channel.stop()
 
             try:
-                result = run([
-                    'espeak-ng',
-                    '-v', 'en+f5',
-                    '-s', '145',
-                    '-p', '50',
-                    '--stdout',
-                    text,
-                ], capture_output=True, check=True, timeout=10)
+                with NamedTemporaryFile(suffix='.wav') as audio_file:
+                    run([
+                        'espeak-ng',
+                        '-v', 'en+f5',
+                        '-s', '145',
+                        '-p', '50',
+                        '-w', audio_file.name,
+                        text,
+                    ], capture_output=True, check=True, timeout=10)
+
+                    sound = mixer.Sound(audio_file.name)
+                    channel = mixer.find_channel(force=True)
+                    channel.play(sound)
+                    AudioController._speech_channel = channel
             except (CalledProcessError, OSError, TimeoutExpired) as e:
                 log_error(e)
 
                 return
-
-            try:
-                sound = mixer.Sound(file=BytesIO(result.stdout))
-                
-                AudioController._speech_channel = mixer.find_channel(force=True)
-                AudioController._speech_channel.play(sound)
             except Exception as e:  # pylint: disable=broad-exception-caught
                 log_error(e)
