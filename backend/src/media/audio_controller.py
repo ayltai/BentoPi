@@ -1,7 +1,7 @@
 from os import path
 from subprocess import CalledProcessError, TimeoutExpired, run
 from tempfile import NamedTemporaryFile
-from threading import Lock
+from threading import Lock, RLock
 
 from pygame import mixer
 
@@ -10,6 +10,7 @@ from ..utils.logging import log_error
 
 class AudioController:
     _instance       = None
+    _music_lock     = RLock()  # play() calls stop() while holding this lock.
     _speech_channel = None
     _speech_lock    = Lock()
 
@@ -22,22 +23,21 @@ class AudioController:
         return cls._instance
 
     @staticmethod
-    def play(file_path: str) -> None:
-        AudioController.stop()
+    def play(file_path: str, loop: bool = True) -> None:
+        with AudioController._music_lock:
+            AudioController.stop()
 
-        if not path.exists(file_path):
-            raise FileNotFoundError(f'File not found: {file_path}')
+            if not path.exists(file_path):
+                raise FileNotFoundError(f'File not found: {file_path}')
 
-        try:
             mixer.music.load(file_path)
-            mixer.music.play(loops=-1)
-        except Exception as e:  # pylint: disable=broad-exception-caught
-            log_error(e)
+            mixer.music.play(loops=-1 if loop else 0)
 
     @staticmethod
-    def stop():
-        mixer.music.stop()
-        mixer.music.unload()
+    def stop() -> None:
+        with AudioController._music_lock:
+            mixer.music.stop()
+            mixer.music.unload()
 
     @staticmethod
     def speak(text: str) -> None:

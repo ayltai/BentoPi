@@ -1,72 +1,68 @@
+import type { Entity, Thermostat, } from '../models';
 import { render, } from '../utils/test';
 import { HeatingScreen, } from './HeatingScreen';
 
-const mockUseGetDevicesQuery      = vi.fn();
-const mockUseGetTelemetryQuery    = vi.fn();
-const mockUseGetCurrentStateQuery = vi.fn();
+const mockUseGetTelemetryQuery = vi.fn();
+const mockUseGetThermostatQuery = vi.fn();
 
-vi.mock('../apis', async (importOriginal) => ({
-    ...(await importOriginal<any>()),
-    useGetConfigurationsQuery : () => ({
-        data  : {
-            thresholdOn      : 18,
-            thresholdOff     : 22,
-            decisionStrategy : 'min',
+vi.mock('../apis', async importOriginal => ({
+    ...await importOriginal<typeof import('../apis')>(),
+    useGetTelemetryQuery         : () => mockUseGetTelemetryQuery(),
+    useGetThermostatQuery        : () => mockUseGetThermostatQuery(),
+    useSetTargetTemperatureMutation : () => [
+        vi.fn(),
+        {
+            isLoading : false,
+            error     : undefined,
         },
-        error : undefined,
-    }),
-    useGetDevicesQuery        : () => mockUseGetDevicesQuery(),
-    useGetTelemetryQuery      : () => mockUseGetTelemetryQuery(),
-    useGetCurrentStateQuery   : () => mockUseGetCurrentStateQuery(),
+    ],
 }));
 
-vi.mock('react-gauge-component', async (importOriginal) => ({
-    ...(await importOriginal<any>()),
-    GaugeComponent : () => <div data-testid="mock-gauge" />,
+vi.mock('react-gauge-component', () => ({
+    GaugeComponent : () => <div data-testid='mock-gauge' />,
 }));
+
+const sensors : Entity[] = [
+    {
+        entityId   : 'sensor.living_area_climate_living_area_temperature',
+        state      : '19',
+        attributes : {
+            deviceClass : 'temperature',
+        },
+    }, {
+        entityId   : 'sensor.living_area_climate_living_area_humidity',
+        state      : '40',
+        attributes : {
+            deviceClass : 'humidity',
+        },
+    },
+];
+
+const boiler : Entity = {
+    entityId   : 'input_boolean.desired_boiler_switch_state',
+    state      : 'on',
+    attributes : {},
+};
+
+const thermostat : Thermostat = {
+    entityId   : 'climate.entrance_climate_actuator_entrance_thermostat',
+    state      : 'heat',
+    attributes : {
+        minTemp            : 5,
+        maxTemp            : 40,
+        currentTemperature : 19,
+        temperature        : 21,
+    },
+};
 
 describe('<HeatingScreen />', () => {
     beforeEach(() => {
-        mockUseGetDevicesQuery.mockReset();
-        mockUseGetTelemetryQuery.mockReset();
-        mockUseGetCurrentStateQuery.mockReset();
-
-        mockUseGetDevicesQuery.mockReturnValue({
-            data  : [
-                {
-                    id           : '1',
-                    displayName  : 'Living Room',
-                    capabilities : 'temperature',
-                    lastSeen     : '2025-11-21T12:00:00Z',
-                }, {
-                    id           : '2',
-                    displayName  : 'Heater',
-                    capabilities : 'action_relay',
-                    lastSeen     : '2025-11-21T12:00:00Z',
-                },
-            ],
-            error : undefined,
-        });
-
         mockUseGetTelemetryQuery.mockReturnValue({
-            data  : [
-                {
-                    deviceId  : '1',
-                    timestamp : '2025-11-21T12:00:00Z',
-                    dataType  : 'temperature',
-                    value     : 1900,
-                }, {
-                    deviceId  : '1',
-                    timestamp : '2025-11-21T12:00:00Z',
-                    dataType  : 'humidity',
-                    value      : 4000,
-                },
-            ],
+            data  : [ ...sensors, boiler, ],
             error : undefined,
         });
-
-        mockUseGetCurrentStateQuery.mockReturnValue({
-            data  : 1,
+        mockUseGetThermostatQuery.mockReturnValue({
+            data  : thermostat,
             error : undefined,
         });
     });
@@ -74,7 +70,7 @@ describe('<HeatingScreen />', () => {
     it('renders temperature and humidity for each sensor', () => {
         const { getByText, } = render(<HeatingScreen />);
 
-        expect(getByText('Living Room')).toBeInTheDocument();
+        expect(getByText('sensor.living_area_climate_living_area')).toBeInTheDocument();
         expect(getByText('19.0°C')).toBeInTheDocument();
         expect(getByText('40%')).toBeInTheDocument();
     });
@@ -85,9 +81,12 @@ describe('<HeatingScreen />', () => {
         expect(getByText('label_heating_status_on')).toBeInTheDocument();
     });
 
-    it('shows heating status as OFF if currentStateData is 0', () => {
-        mockUseGetCurrentStateQuery.mockReturnValue({
-            data  : 0,
+    it('shows heating status as OFF when the boiler switch is off', () => {
+        mockUseGetTelemetryQuery.mockReturnValue({
+            data  : [ ...sensors, {
+                ...boiler,
+                state : 'off',
+            }, ],
             error : undefined,
         });
 

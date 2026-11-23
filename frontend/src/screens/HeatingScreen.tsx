@@ -7,7 +7,7 @@ import { GaugeComponent, } from 'react-gauge-component';
 import { useTranslation, } from 'react-i18next';
 
 import { useGetTelemetryQuery, useGetThermostatQuery, useSetTargetTemperatureMutation, } from '../apis';
-import { INTERVAL_HEATING_UPDATE, } from '../constants';
+import { HEATING_STATE_ID, INTERVAL_HEATING_UPDATE, } from '../constants';
 import type { Entity, } from '../models';
 import { handleError, } from '../utils';
 
@@ -19,8 +19,6 @@ const ORDER = [
     'sensor.harold_climate_harold',
     'sensor.loft_climate_loft',
 ];
-
-const HEATING_STATE_ID = 'input_boolean.desired_boiler_switch_state';
 
 export const HeatingScreen = () => {
     const [ setTargetTemperature, { isLoading : isUpdatingTargetTemperature, error : setTargetTemperatureError, }, ] = useSetTargetTemperatureMutation();
@@ -64,6 +62,7 @@ export const HeatingScreen = () => {
     }, [ telemetryData, ]);
 
     const heatingState = useMemo(() => telemetryData?.find(telemetry => telemetry.entityId === HEATING_STATE_ID)?.state, [ telemetryData, ]);
+    const isHeating = heatingState?.toLowerCase() === 'on';
 
     useEffect(() => {
         if (setTargetTemperatureError) handleError(setTargetTemperatureError);
@@ -182,15 +181,15 @@ export const HeatingScreen = () => {
                                 span={24}>
                                 <FontAwesomeIcon
                                     size='lg'
-                                    color={heatingState === 'On' ? '#d32f2f' : '#546e7a'}
+                                    color={isHeating ? '#d32f2f' : '#546e7a'}
                                     icon={faFireFlameCurved} />
                                 <Typography.Text style={{
                                     marginLeft : 8,
-                                    color      : heatingState === 'On' ? '#d32f2f' : '#546e7a',
+                                    color      : isHeating ? '#d32f2f' : '#546e7a',
                                     fontSize   : '1.2em',
                                     fontWeight : 'bold',
                                 }}>
-                                    {t(heatingState === 'On' ? 'label_heating_status_on' : 'label_heating_status_off')}
+                                    {t(isHeating ? 'label_heating_status_on' : 'label_heating_status_off')}
                                 </Typography.Text>
                             </Col>
                         </Row>

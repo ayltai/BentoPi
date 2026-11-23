@@ -1,17 +1,85 @@
-@keyframes blink {
-    0% {
+.timer-dial {
+    position: relative;
+    container-type: inline-size;
+    flex: 0 1 216px;
+    width: 44%;
+    height: min(216px, 100%);
+    max-width: 216px;
+    aspect-ratio: 1;
+}
+
+.timer-ring {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.timer-arc {
+    transition: stroke-dashoffset 320ms linear;
+}
+
+.timer-ring-tick {
+    stroke: currentColor;
+    stroke-width: 0.4;
+    opacity: 0.65;
+}
+
+.timer-ring-label {
+    fill: currentColor;
+    font-size: 3.8px;
+    font-variant-numeric: tabular-nums;
+}
+
+.timer-dial-center {
+    position: absolute;
+    inset: 18% 8% 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.timer-remaining {
+    font-size: min(40px, calc(125cqi / var(--timer-characters)));
+    font-variant-numeric: tabular-nums;
+    font-weight: 650;
+    line-height: 1;
+}
+
+.timer-progress-accessible {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+    border: 0;
+}
+
+.timer-pulse {
+    animation: timer-last-minute-pulse 2s ease-in-out infinite;
+}
+
+@keyframes timer-last-minute-pulse {
+    0%,
+    100% {
         opacity: 1;
     }
 
     50% {
-        opacity: 0.1;
-    }
-
-    100% {
-        opacity: 1;
+        opacity: 0.2;
     }
 }
 
-.blinking {
-    animation: blink 0.6s infinite;
+@media (prefers-reduced-motion: reduce) {
+    .timer-arc {
+        transition: none;
+    }
+
+    .timer-pulse {
+        animation: none;
+    }
 }

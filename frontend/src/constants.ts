@@ -9,6 +9,8 @@ export const WS_ENDPOINT  : string = `ws://${window.location.hostname}:8000/ws`;
 
 export const API_MAX_RETRIES : number = 5;
 
+export const HEATING_STATE_ID : string = 'input_boolean.desired_boiler_switch_state';
+
 export const LOCATION_LATITUDE  : number = 51.365479;
 export const LOCATION_LONGITUDE : number = 0.211968;
 export const LOCATION_TIMEZONE  : string = 'Europe/London';

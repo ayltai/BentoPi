@@ -14,7 +14,7 @@ export const AlertOverlay = () => {
     const [ alert,       setAlert,       ] = useState<SnapshotAlert | null>(null);
     const [ imageFailed, setImageFailed, ] = useState<boolean>(false);
 
-    const handleMessage = useCallback((message: Record<string, any>) => {
+    const handleMessage = useCallback((message: Record<string, unknown>) => {
         if (typeof message.label === 'string' && typeof message.snapshot === 'string') {
             setImageFailed(false);
 

@@ -10,8 +10,8 @@ class DeviceManager:
 
         self.devices[device_id] = websocket
 
-    def disconnect(self, device_id: str) -> None:
-        if device_id in self.devices:
+    def disconnect(self, device_id: str, websocket: WebSocket) -> None:
+        if self.devices.get(device_id) is websocket:
             del self.devices[device_id]
 
     async def send(self, device_id: str, payload: dict[str, ...]) -> bool:
@@ -22,6 +22,6 @@ class DeviceManager:
 
                 return True
             except (OSError, RuntimeError, WebSocketDisconnect):
-                self.disconnect(device_id)
+                self.disconnect(device_id, websocket)
 
         return False

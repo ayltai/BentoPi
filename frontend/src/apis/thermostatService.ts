@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery, } from '@reduxjs/toolkit/query/react';
 
-import { API_MAX_RETRIES, } from '../constants';
+import { API_MAX_RETRIES, HEATING_STATE_ID, } from '../constants';
 import type { Entity, Thermostat, } from '../models';
 import { camelCaseToSnakeCase, snakeCaseToCamelCase, } from '../utils/strings';
 
@@ -41,7 +41,7 @@ export const thermostatService = createApi({
         }),
         getTelemetry         : build.query<Entity[], void>({
             query             : () => '/states',
-            transformResponse : (response : any) => response.map((item : any) => snakeCaseToCamelCase(item)).filter((item : Entity) => item.attributes.deviceClass === 'temperature' || item.attributes.deviceClass === 'humidity'),
+            transformResponse : (response : any) => response.map((item : any) => snakeCaseToCamelCase(item)).filter((item : Entity) => item.entityId === HEATING_STATE_ID || item.attributes.deviceClass === 'temperature' || item.attributes.deviceClass === 'humidity'),
         }),
     }),
 });

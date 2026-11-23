@@ -15,13 +15,12 @@ export const apply = ({
     resources          : Resource,
 }) => i18next.use(initReactI18next)
     .init({
-        supportedLngs     : supportedLanguages,
-        lng               : language,
-        fallbackLng       : fallbackLanguage,
-        nsSeparator       : false,
-        keySeparator      : false,
-        compatibilityJSON : 'v4',
-        interpolation     : {
+        supportedLngs : supportedLanguages,
+        lng           : language,
+        fallbackLng   : fallbackLanguage,
+        nsSeparator   : false,
+        keySeparator  : false,
+        interpolation : {
             escapeValue : false,
         },
         resources,

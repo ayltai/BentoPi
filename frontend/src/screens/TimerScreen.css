@@ -1,0 +1,73 @@
+.timer-screen {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    height: calc(100vh - 32px);
+    padding: 4px 12px 8px;
+}
+
+.timer-heading {
+    display: flex;
+    justify-content: center;
+    min-height: 24px;
+    font-size: 18px;
+    text-align: center;
+}
+
+.timer-heading .ant-typography {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.timer-content {
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 0;
+}
+
+.timer-controls {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    min-width: 0;
+    max-width: 230px;
+    text-align: center;
+}
+
+.timer-controls > .ant-btn {
+    min-height: 40px;
+}
+
+.timer-adjustments {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.timer-adjustments .ant-btn {
+    height: 44px;
+    padding-inline: 4px;
+    font-size: 18px;
+}
+
+.timer-time-up {
+    font-size: 24px;
+}
+
+.timer-error {
+    padding: 2px 8px;
+    font-size: 12px;
+}

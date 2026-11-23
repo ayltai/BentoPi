@@ -28,4 +28,4 @@ async def device_endpoint(websocket: WebSocket, device_id: str) -> None:
             if target_id:
                 await device_manager.send(target_id, message.get('payload'))
     except WebSocketDisconnect:
-        device_manager.disconnect(device_id)
+        device_manager.disconnect(device_id, websocket)

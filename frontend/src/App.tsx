@@ -30,6 +30,79 @@ const DashboardLayout = () => (
     </Layout>
 );
 
+const router = createHashRouter([
+    {
+        path    : '/',
+        index   : true,
+        element : (
+            <Navigate
+                replace
+                to='/dashboard/home' />
+        ),
+    }, {
+        path      : '/tasks',
+        Component : TasksScreen,
+    }, {
+        Component : DashboardLayout,
+        children  : [
+            {
+                path      : '/timer',
+                Component : TimerScreen,
+            },
+        ],
+    }, {
+        Component : IdleManager,
+        children  : [
+            {
+                path      : '/clock',
+                Component : ClockScreen,
+            }, {
+                Component : DashboardLayout,
+                children  : [
+                    {
+                        path      : '/dashboard/home',
+                        Component : HomeScreen,
+                    }, {
+                        path      : '/dashboard/heating',
+                        Component : HeatingScreen,
+                    }, {
+                        path      : '/dashboard/weather',
+                        Component : WeatherScreen,
+                    }, {
+                        path      : '/dashboard/news',
+                        Component : NewsScreen,
+                    }, {
+                        path      : '/dashboard/disruptions',
+                        Component : DisruptionsScreen,
+                    }, {
+                        path      : '/dashboard/games',
+                        Component : GamesScreen,
+                    }, {
+                        path      : '/dashboard/security',
+                        Component : CamerasScreen,
+                    }, {
+                        path      : '/dashboard/system',
+                        Component : SystemScreen,
+                    }, {
+                        path      : '/games/memory',
+                        Component : MemoryGameScreen,
+                    }, {
+                        path      : '/games/hangman',
+                        Component : HangmanGameScreen,
+                    }, {
+                        path      : '/games/mastermind',
+                        Component : MastermindGameScreen,
+                    },
+                ],
+            },
+        ],
+    },
+    {
+        path    : '*',
+        element : <Navigate to='/' />,
+    },
+]);
+
 export const App = () => {
     const { data, error, } = useGetWeatherQuery({
         latitude  : LOCATION_LATITUDE,
@@ -91,78 +164,7 @@ export const App = () => {
             }}>
             {contextHolder}
             <AlertOverlay />
-            <RouterProvider router={createHashRouter([
-                {
-                    path    : '/',
-                    index   : true,
-                    element : (
-                        <Navigate
-                            replace
-                            to='/dashboard/home' />
-                    ),
-                }, {
-                    path      : '/tasks',
-                    Component : TasksScreen,
-                }, {
-                    Component : DashboardLayout,
-                    children  : [
-                        {
-                            path      : '/timer',
-                            Component : TimerScreen,
-                        },
-                    ],
-                }, {
-                    Component : IdleManager,
-                    children  : [
-                        {
-                            path      : '/clock',
-                            Component : ClockScreen,
-                        }, {
-                            Component : DashboardLayout,
-                            children  : [
-                                {
-                                    path      : '/dashboard/home',
-                                    Component : HomeScreen,
-                                }, {
-                                    path      : '/dashboard/heating',
-                                    Component : HeatingScreen,
-                                }, {
-                                    path      : '/dashboard/weather',
-                                    Component : WeatherScreen,
-                                }, {
-                                    path      : '/dashboard/news',
-                                    Component : NewsScreen,
-                                }, {
-                                    path      : '/dashboard/disruptions',
-                                    Component : DisruptionsScreen,
-                                }, {
-                                    path      : '/dashboard/games',
-                                    Component : GamesScreen,
-                                }, {
-                                    path      : '/dashboard/security',
-                                    Component : CamerasScreen,
-                                }, {
-                                    path      : '/dashboard/system',
-                                    Component : SystemScreen,
-                                }, {
-                                    path      : '/games/memory',
-                                    Component : MemoryGameScreen,
-                                }, {
-                                    path      : '/games/hangman',
-                                    Component : HangmanGameScreen,
-                                }, {
-                                    path      : '/games/mastermind',
-                                    Component : MastermindGameScreen,
-                                },
-                            ],
-                        },
-                    ],
-                },
-                {
-                    path    : '*',
-                    element : <Navigate to='/' />,
-                },
-            ])} />
+            <RouterProvider router={router} />
         </ConfigProvider>
     );
 };
