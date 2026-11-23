@@ -87,7 +87,7 @@ class WebSocketRouteTests(unittest.IsolatedAsyncioTestCase):
         await client.open()
         return client
 
-    async def test_replacement_survives_old_disconnect_and_delivers_task_and_ack(self) -> None:
+    async def test_replacement_survives_old_disconnect_and_relays_messages(self) -> None:
         older = await self.open_websocket('timer')
         older_connection = self.manager.devices['timer']
         current = await self.open_websocket('timer')
@@ -97,14 +97,14 @@ class WebSocketRouteTests(unittest.IsolatedAsyncioTestCase):
         await older.close()
         self.assertIs(self.manager.devices.get('timer'), current_connection)
 
-        sender = await self.open_websocket('tasks-123')
-        task = {'title': 'Focus', 'timeLimit': 1.5, 'replyTo': 'tasks-123', 'requestId': 'req-456'}
-        await sender.send_json({'target_id': 'timer', 'payload': task})
-        self.assertEqual(await current.receive_json(), task)
+        sender = await self.open_websocket('client-123')
+        message = {'content': 'hello'}
+        await sender.send_json({'target_id': 'timer', 'payload': message})
+        self.assertEqual(await current.receive_json(), message)
 
-        acknowledgement = {'requestId': 'req-456', 'accepted': True}
-        await current.send_json({'target_id': 'tasks-123', 'payload': acknowledgement})
-        self.assertEqual(await sender.receive_json(), acknowledgement)
+        response = {'content': 'world'}
+        await current.send_json({'target_id': 'client-123', 'payload': response})
+        self.assertEqual(await sender.receive_json(), response)
 
     async def test_normal_disconnect_removes_only_current_device(self) -> None:
         timer = await self.open_websocket('timer')
@@ -118,7 +118,7 @@ class WebSocketRouteTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_stale_failed_send_preserves_replacement(self) -> None:
         older = await self.open_websocket('timer')
-        sender = await self.open_websocket('tasks-123')
+        sender = await self.open_websocket('client-123')
         probe = await self.open_websocket('probe')
         older.fail_next_send = True
         await sender.send_json({'target_id': 'timer', 'payload': {'requestId': 'old'}})

@@ -36,12 +36,11 @@ afterEach(() => {
 describe('timer controller', () => {
     it('uses elapsed monotonic time, pauses, resumes, and restarts the same duration', () => {
         const controller = createController();
-        controller.startTimer(30 * minute, 'First task');
+        controller.startTimer(30 * minute);
         now = 7 * minute + 250;
         controller.pause();
         expect(controller.getSnapshot()).toMatchObject({
             remainingMs : 23 * minute - 250,
-            title       : 'First task',
             timer       : {
                 status : 'paused',
             },
@@ -57,10 +56,9 @@ describe('timer controller', () => {
         controller.tick();
         expect(controller.getSnapshot().remainingMs).toBe(21 * minute - 250);
 
-        controller.startTimer(30 * minute, 'Another task');
+        controller.startTimer(30 * minute);
         expect(controller.getSnapshot()).toMatchObject({
             remainingMs : 30 * minute,
-            title       : 'Another task',
             timer       : {
                 status : 'running',
             },
@@ -115,7 +113,7 @@ describe('timer controller', () => {
         controller.startTimer(5 * minute);
         now = minute;
         controller.tick();
-        controller.startTimer(2 * minute, 'Older task');
+        controller.startTimer(2 * minute);
         now += minute;
         controller.tick();
         expect(audio.play).not.toHaveBeenCalled();
@@ -123,7 +121,7 @@ describe('timer controller', () => {
 
     it('skips the milestone on a jump to expiry and clears recovery without replaying the alarm', () => {
         const controller = createController();
-        controller.startTimer(10 * minute, 'Task');
+        controller.startTimer(10 * minute);
         now = 11 * minute;
         controller.tick();
         controller.tick();
@@ -133,7 +131,6 @@ describe('timer controller', () => {
             timeUp            : true,
             remainingMs       : 0,
             initialDurationMs : 10 * minute,
-            title             : 'Task',
         });
         expect(loadTimer()).toBeNull();
 
@@ -155,17 +152,15 @@ describe('timer controller', () => {
         expect(audio.stop).toHaveBeenCalledTimes(1);
     });
 
-    it('restores a short saved task paused and checkpoints the paused recovery', () => {
+    it('restores a short saved timer paused and checkpoints the paused recovery', () => {
         localStorage.setItem(TIMER_STORAGE_KEY, JSON.stringify({
             initialDurationMs : 2 * minute,
             remainingMs       : minute,
             status            : 'running',
-            title             : 'Legacy task',
         }));
         const controller = createController();
         expect(controller.getSnapshot()).toMatchObject({
             remainingMs : minute,
-            title       : 'Legacy task',
             timer       : {
                 status : 'paused',
             },
@@ -188,14 +183,13 @@ describe('timer controller', () => {
         const controller = createController();
         const disconnect = controller.connect();
         const durationMs = 1.500_001 * minute;
-        controller.startTimer(durationMs, 'Fractional task');
+        controller.startTimer(durationMs);
         now = 1_234.125;
         disconnect();
         expect(controller.getSnapshot().remainingMs).toBe(durationMs - now);
         expect(loadTimer()).toMatchObject({
             initialDurationMs : durationMs,
             remainingMs       : durationMs - now,
-            title             : 'Fractional task',
             status            : 'paused',
         });
         expect(createController().getSnapshot().remainingMs).toBe(durationMs - now);

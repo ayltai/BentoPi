@@ -9,7 +9,6 @@ import { alarmReducer, } from '../states/alarmSlice';
 import { hangmanReducer, } from '../states/hangmanSlice';
 import { mastermindReducer, } from '../states/mastermindSlice';
 import { memoryReducer, } from '../states/memorySlice';
-import { taskReducer, } from '../states/taskSlice';
 
 export const createStore = (preloadedState? : unknown) => configureStore({
     preloadedState,
@@ -18,7 +17,6 @@ export const createStore = (preloadedState? : unknown) => configureStore({
         hangman                           : hangmanReducer,
         mastermind                        : mastermindReducer,
         memory                            : memoryReducer,
-        task                              : taskReducer,
         [ thermostatService.reducerPath ] : thermostatService.reducer,
         [ newsService.reducerPath       ] : newsService.reducer,
         [ systemService.reducerPath     ] : systemService.reducer,

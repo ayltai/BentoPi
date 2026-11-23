@@ -1,53 +1,24 @@
 import { Alert, Button, Typography, } from 'antd';
-import { useEffect, useRef, useState, useSyncExternalStore, } from 'react';
+import { useEffect, useState, useSyncExternalStore, } from 'react';
 import { useTranslation, } from 'react-i18next';
 
 import { Timer, } from '../components';
-import { LOCALE, WS_ENDPOINT, } from '../constants';
-import { useAppSelector, useWebSocket, } from '../hooks';
+import { LOCALE, } from '../constants';
+import { useAppSelector, } from '../hooks';
 import { COUNTDOWN_ADJUSTMENTS, DEFAULT_COUNTDOWN_MINUTES, MIN_COUNTDOWN_MINUTES, } from '../timer/constants';
-import { getTaskReply, isTaskTimerMessage, } from '../timer/taskMessage';
 import { createTimerController, } from '../timer/timerController';
 import './TimerScreen.css';
 
 export const TimerScreen = () => {
     const { track, } = useAppSelector(root => root.alarm);
-    const { t, i18n, } = useTranslation();
-    const [ controller, ] = useState(() => createTimerController(track));
+
     const [ durationMinutes, setDurationMinutes, ] = useState(DEFAULT_COUNTDOWN_MINUTES);
-    const [ messageError, setMessageError, ] = useState<'invalid' | 'acknowledgment' | null>(null);
+
+    const [ controller, ] = useState(() => createTimerController(track));
+
     const state = useSyncExternalStore(controller.subscribe, controller.getSnapshot);
-    const sendRef = useRef<(message : Record<string, unknown>) => boolean>(() => false);
 
-    const { send, } = useWebSocket(`${WS_ENDPOINT}/timer`, (message) : void => {
-        const reply = getTaskReply(message);
-        if (!isTaskTimerMessage(message)) {
-            setMessageError('invalid');
-            if (reply) sendRef.current({
-                target_id : reply.replyTo,
-                payload   : {
-                    requestId : reply.requestId,
-                    accepted  : false,
-                },
-            });
-
-            return;
-        }
-
-        controller.startTimer(message.timeLimit * 60_000, message.title);
-        setMessageError(null);
-        if (reply && !sendRef.current({
-            target_id : reply.replyTo,
-            payload   : {
-                requestId : reply.requestId,
-                accepted  : true,
-            },
-        })) setMessageError('acknowledgment');
-    });
-
-    useEffect(() => {
-        sendRef.current = send;
-    }, [ send, ]);
+    const { t, i18n, } = useTranslation();
 
     useEffect(() => controller.connect(), [ controller, ]);
 
@@ -58,12 +29,12 @@ export const TimerScreen = () => {
     const reset = () : void => {
         controller.reset();
         setDurationMinutes(DEFAULT_COUNTDOWN_MINUTES);
-        setMessageError(null);
     };
 
-    const isSettingUp = !state.timer && !state.timeUp;
-    const initialDurationMs = isSettingUp ? durationMinutes * 60_000 : state.initialDurationMs;
+    const isSettingUp         = !state.timer && !state.timeUp;
+    const initialDurationMs   = isSettingUp ? durationMinutes * 60_000 : state.initialDurationMs;
     const remainingDurationMs = isSettingUp ? initialDurationMs : state.remainingMs;
+    const heading             = t(isSettingUp ? 'label_timer_setup' : 'label_timer_countdown');
 
     return (
         <section
@@ -72,8 +43,8 @@ export const TimerScreen = () => {
             <div className='timer-heading'>
                 <Typography.Text
                     strong
-                    title={state.title || t('label_timer_setup')}>
-                    {state.title || t('label_timer_setup')}
+                    title={heading}>
+                    {heading}
                 </Typography.Text>
             </div>
             {state.storageError && (
@@ -89,13 +60,6 @@ export const TimerScreen = () => {
                     type='error'
                     showIcon
                     message={t('error_timer_audio')} />
-            )}
-            {messageError && (
-                <Alert
-                    className='timer-error'
-                    type='error'
-                    showIcon
-                    message={t(messageError === 'invalid' ? 'error_timer_task_invalid' : 'error_timer_acknowledgment')} />
             )}
             <div className='timer-content'>
                 <Timer

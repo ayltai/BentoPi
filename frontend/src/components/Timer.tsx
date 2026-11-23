@@ -36,12 +36,13 @@ export const Timer = ({
     locale?             : string,
 }) => {
     const { t, } = useTranslation();
-    const progress = initialDurationMs > 0 ? Math.min(1, Math.max(0, 1 - remainingDurationMs / initialDurationMs)) : 0;
-    const remaining = formatRemaining(remainingDurationMs, locale);
+    const progress        = initialDurationMs > 0 ? Math.min(1, Math.max(0, 1 - remainingDurationMs / initialDurationMs)) : 0;
+    const remaining       = formatRemaining(remainingDurationMs, locale);
     const lastMinutePulse = isRunning && remainingDurationMs > 0 && remainingDurationMs <= 60_000;
     const durationMinutes = Math.floor(initialDurationMs / 60_000);
-    const tickStep = Math.max(1, Math.ceil(durationMinutes / 12));
-    const tickNumbers = new Intl.NumberFormat(locale);
+    const tickStep        = Math.max(1, Math.ceil(durationMinutes / 12));
+    const tickNumbers     = new Intl.NumberFormat(locale);
+
     const tickValues = Array.from({
         length : Math.floor(durationMinutes / tickStep),
     }, (_, index) => (index + 1) * tickStep);

@@ -9,6 +9,5 @@ export { MastermindGameScreen, } from './MastermindGameScreen';
 export { MemoryGameScreen, } from './MemoryGameScreen';
 export { NewsScreen, } from './NewsScreen';
 export { SystemScreen, } from './SystemScreen';
-export { TasksScreen, } from './TasksScreen';
 export { TimerScreen, } from './TimerScreen';
 export { WeatherScreen, } from './WeatherScreen';

@@ -4,7 +4,6 @@ export type SavedTimer = {
     initialDurationMs : number,
     remainingMs       : number,
     status            : 'running' | 'paused',
-    title             : string,
 };
 
 export const loadTimer = () : SavedTimer | null => {
@@ -22,15 +21,14 @@ export const loadTimer = () : SavedTimer | null => {
     if (typeof value !== 'object' || value === null || Array.isArray(value)) throw new Error('Saved timer data is invalid.');
 
     const record = value as Record<string, unknown>;
-    const { initialDurationMs, remainingMs, status, title, } = record;
+    const { initialDurationMs, remainingMs, status, } = record;
 
-    if (typeof initialDurationMs !== 'number' || !Number.isFinite(initialDurationMs) || initialDurationMs <= 0 || initialDurationMs > Number.MAX_SAFE_INTEGER || typeof remainingMs !== 'number' || !Number.isFinite(remainingMs) || remainingMs <= 0 || remainingMs > initialDurationMs || (status !== 'running' && status !== 'paused') || (title !== undefined && typeof title !== 'string')) throw new Error('Saved timer data is invalid.');
+    if (typeof initialDurationMs !== 'number' || !Number.isFinite(initialDurationMs) || initialDurationMs <= 0 || initialDurationMs > Number.MAX_SAFE_INTEGER || typeof remainingMs !== 'number' || !Number.isFinite(remainingMs) || remainingMs <= 0 || remainingMs > initialDurationMs || (status !== 'running' && status !== 'paused')) throw new Error('Saved timer data is invalid.');
 
     return {
         initialDurationMs,
         remainingMs,
         status,
-        title : typeof title === 'string' ? title : '',
     };
 };
 

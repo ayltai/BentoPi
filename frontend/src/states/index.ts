@@ -7,7 +7,6 @@ import { alarmReducer, } from './alarmSlice';
 import { hangmanReducer, } from './hangmanSlice';
 import { mastermindReducer, } from './mastermindSlice';
 import { memoryReducer, } from './memorySlice';
-import { taskReducer, } from './taskSlice';
 
 const createNoopStorage = () => ({
     getItem    : () => Promise.resolve(null),
@@ -34,7 +33,6 @@ const makeStore = () => configureStore({
         hangman                           : hangmanReducer,
         mastermind                        : mastermindReducer,
         memory                            : memoryReducer,
-        task                              : taskReducer,
         [ thermostatService.reducerPath ] : thermostatService.reducer,
         [ newsService.reducerPath       ] : newsService.reducer,
         [ systemService.reducerPath     ] : systemService.reducer,

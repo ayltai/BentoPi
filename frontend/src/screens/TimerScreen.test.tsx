@@ -1,5 +1,4 @@
-import { act, cleanup, fireEvent, render, screen, within, } from '../utils/test';
-import { TasksScreen, } from './TasksScreen';
+import { act, cleanup, fireEvent, render, screen, } from '../utils/test';
 import { TimerScreen, } from './TimerScreen';
 
 vi.mock('react-i18next', () => ({
@@ -10,41 +9,6 @@ vi.mock('react-i18next', () => ({
         },
     }),
 }));
-
-class MockWebSocket {
-    static readonly OPEN = 1;
-
-    static readonly instances : MockWebSocket[] = [];
-
-    readyState = MockWebSocket.OPEN;
-
-    onopen : ((event : Event) => void) | null = null;
-
-    onclose : ((event : Event) => void) | null = null;
-
-    onerror : ((event : Event) => void) | null = null;
-
-    onmessage : ((event : MessageEvent) => void) | null = null;
-
-    send = vi.fn<(message : string) => void>();
-
-    readonly url : string;
-
-    constructor(url : string) {
-        this.url = url;
-        MockWebSocket.instances.push(this);
-    }
-
-    close() {
-        this.readyState = 3;
-    }
-
-    receive(message : object) {
-        this.onmessage?.(new MessageEvent('message', {
-            data : JSON.stringify(message),
-        }));
-    }
-}
 
 let now = 0;
 
@@ -68,12 +32,10 @@ const playbackRequests = (track : string) => fetchMock.mock.calls.filter(([ url,
 
 beforeEach(() => {
     now = 0;
-    MockWebSocket.instances.length = 0;
     fetchMock.mockClear();
     localStorage.clear();
     vi.useFakeTimers();
     vi.spyOn(performance, 'now').mockImplementation(() => now);
-    vi.stubGlobal('WebSocket', MockWebSocket);
     vi.stubGlobal('fetch', fetchMock);
 });
 
@@ -125,160 +87,19 @@ describe('<TimerScreen />', () => {
         expect(screen.getByText('30:00')).toBeInTheDocument();
     });
 
-    it('starts each received task, including one with the same duration, and acknowledges it', async () => {
-        render(<TimerScreen />);
-
-        const socket = MockWebSocket.instances.at(-1)!;
-
-        act(() => socket.receive({
-            title     : 'Homework',
-            timeLimit : 10,
-            replyTo   : 'tasks-test',
-            requestId : 'first',
-        }));
-        expect(screen.getByText('Homework')).toBeInTheDocument();
-        expect(screen.getByText('10:00')).toBeInTheDocument();
-        await advance(60_000);
-        expect(screen.getByText('9:00')).toBeInTheDocument();
-
-        act(() => socket.receive({
-            title     : 'Reading',
-            timeLimit : 10,
-            replyTo   : 'tasks-test',
-            requestId : 'second',
-        }));
-        expect(screen.getByText('Reading')).toBeInTheDocument();
-        expect(screen.getByText('10:00')).toBeInTheDocument();
-        expect(socket.send).toHaveBeenCalledWith(JSON.stringify({
-            target_id : 'tasks-test',
-            payload   : {
-                requestId : 'second',
-                accepted  : true,
-            },
-        }));
-
-        act(() => socket.receive({
-            title     : 'Short legacy task',
-            timeLimit : 2,
-        }));
-        expect(screen.getByText('Short legacy task')).toBeInTheDocument();
-        expect(screen.getByText('2:00')).toBeInTheDocument();
-
-        act(() => socket.receive({
-            title     : 'Fractional legacy task',
-            timeLimit : 1.5,
-        }));
-        expect(screen.getByText('Fractional legacy task')).toBeInTheDocument();
-        expect(screen.getByText('1:30')).toBeInTheDocument();
-    });
-
-    it('confirms a task only after the timer receives it', async () => {
-        render(
-            <>
-                <TimerScreen />
-                <TasksScreen />
-            </>, {
-                preloadedState : {
-                    task : {
-                        tasks : [
-                            {
-                                id        : 'task-1',
-                                title     : 'Geometry',
-                                timeLimit : 10,
-                            },
-                        ],
-                    },
-                },
-            }
-        );
-
-        const timerSocket = MockWebSocket.instances.find(socket => socket.url.endsWith('/timer'))!;
-        const taskSocket  = MockWebSocket.instances.find(socket => socket.url.includes('/tasks-'))!;
-
-        act(() => {
-            timerSocket.onopen?.(new Event('open'));
-            taskSocket.onopen?.(new Event('open'));
-        });
-
-        expect(MockWebSocket.instances.filter(socket => socket.url.includes('/tasks-'))).toHaveLength(1);
-
-        const taskItem = screen.getByText('Geometry').closest('li')!;
-
-        fireEvent.click(within(taskItem).getByRole('button', {
-            name : /start|play/i,
-        }));
-
-        const request = JSON.parse(taskSocket.send.mock.calls[0][0]);
-
-        expect(request.target_id).toBe('timer');
-        expect(request.payload).toMatchObject({
-            title     : 'Geometry',
-            timeLimit : 10,
-        });
-        expect(screen.queryByText('label_task_sent')).not.toBeInTheDocument();
-
-        await act(async () => timerSocket.receive(request.payload));
-        const acknowledgement = JSON.parse(timerSocket.send.mock.calls[0][0]);
-        await act(async () => taskSocket.receive(acknowledgement.payload));
-        await act(async () => {
-            vi.advanceTimersByTime(100);
-        });
-
-        expect(screen.getByText('10:00')).toBeInTheDocument();
-        expect(screen.getByText('label_task_sent')).toBeInTheDocument();
-    });
-
-    it('reports an undelivered task instead of claiming it started', async () => {
-        render(<TasksScreen />, {
-            preloadedState : {
-                task : {
-                    tasks : [
-                        {
-                            id        : 'task-1',
-                            title     : 'Geometry',
-                            timeLimit : 10,
-                        },
-                    ],
-                },
-            },
-        });
-
-        const socket = MockWebSocket.instances.at(-1)!;
-        act(() => socket.onopen?.(new Event('open')));
-
-        const taskItem = screen.getByText('Geometry').closest('li')!;
-        fireEvent.click(within(taskItem).getByRole('button', {
-            name : /start|play/i,
-        }));
-
-        let error : Element | null = null;
-        for (let elapsed = 0; elapsed < 15_000 && !error; elapsed += 500) {
-            await act(async () => {
-                vi.advanceTimersByTime(500);
-            });
-            error = document.querySelector('.ant-message-error, [role="alert"]');
-        }
-
-        expect(socket.send).toHaveBeenCalledOnce();
-        expect(screen.queryByText('label_task_sent')).not.toBeInTheDocument();
-        expect(error).toBeInTheDocument();
-    });
-
     it('restores an interrupted countdown paused at its saved remainder', async () => {
         const first = render(<TimerScreen />);
 
-        act(() => MockWebSocket.instances.at(-1)!.receive({
-            title     : 'Recovery task',
-            timeLimit : 30,
+        fireEvent.click(screen.getByRole('button', {
+            name : /start/i,
         }));
         await advance(120_000);
         expect(screen.getByText('28:00')).toBeInTheDocument();
-
         act(() => window.dispatchEvent(new Event('pagehide')));
         first.unmount();
         render(<TimerScreen />);
 
-        expect(screen.getByText('Recovery task')).toBeInTheDocument();
+        expect(screen.getByText('label_timer_countdown')).toBeInTheDocument();
         expect(screen.getByText('28:00')).toBeInTheDocument();
         expect(screen.getByRole('button', {
             name : /resume/i,

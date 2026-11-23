@@ -8,7 +8,6 @@ export type TimerState = {
     timer             : CountdownTimer | null,
     initialDurationMs : number,
     remainingMs       : number,
-    title             : string,
     timeUp            : boolean,
     storageError      : boolean,
     audioError        : boolean,
@@ -34,7 +33,6 @@ export const createTimerController = (initialTrack : string, dependencies : Cont
         timer             : null,
         initialDurationMs : 0,
         remainingMs       : 0,
-        title             : '',
         timeUp            : false,
         storageError      : false,
         audioError        : false,
@@ -58,7 +56,6 @@ export const createTimerController = (initialTrack : string, dependencies : Cont
                 },
                 initialDurationMs : saved.initialDurationMs,
                 remainingMs       : saved.remainingMs,
-                title             : saved.title,
             };
             lastTickRemainingMs = saved.remainingMs;
             recoveredRunning = saved.status === 'running';
@@ -95,7 +92,6 @@ export const createTimerController = (initialTrack : string, dependencies : Cont
                 initialDurationMs : state.timer.initialDurationMs,
                 remainingMs       : getRemainingMs(state.timer, nowMs),
                 status            : state.timer.status,
-                title             : state.title,
             } : null);
             state = {
                 ...state,
@@ -163,7 +159,7 @@ export const createTimerController = (initialTrack : string, dependencies : Cont
 
     const tick = () : void => tickAt(now());
 
-    const startTimer = (durationMs : number, title = '') : void => {
+    const startTimer = (durationMs : number) : void => {
         if (!Number.isFinite(durationMs) || durationMs <= 0 || durationMs > Number.MAX_SAFE_INTEGER) throw new Error('Timer duration is invalid.');
 
         const nowMs = now();
@@ -173,7 +169,6 @@ export const createTimerController = (initialTrack : string, dependencies : Cont
             timer             : startCountdown(durationMs, nowMs),
             initialDurationMs : durationMs,
             remainingMs       : durationMs,
-            title,
             timeUp            : false,
             audioError        : false,
         });
@@ -230,7 +225,6 @@ export const createTimerController = (initialTrack : string, dependencies : Cont
             timer             : null,
             initialDurationMs : 0,
             remainingMs       : 0,
-            title             : '',
             timeUp            : false,
             audioError        : false,
         });
