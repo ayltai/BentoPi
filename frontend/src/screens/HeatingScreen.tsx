@@ -63,9 +63,7 @@ export const HeatingScreen = () => {
         return groupedDevices;
     }, [ telemetryData, ]);
 
-    const heatingState = useMemo(() => {
-        return telemetryData?.find(telemetry => telemetry.entityId === HEATING_STATE_ID)?.state;
-    }, [ telemetryData, ]);
+    const heatingState = useMemo(() => telemetryData?.find(telemetry => telemetry.entityId === HEATING_STATE_ID)?.state, [ telemetryData, ]);
 
     useEffect(() => {
         if (setTargetTemperatureError) handleError(setTargetTemperatureError);

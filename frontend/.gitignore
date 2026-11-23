@@ -2,6 +2,7 @@
 node_modules/
 
 # Testing
+.vitest/
 coverage/
 
 # Secrets

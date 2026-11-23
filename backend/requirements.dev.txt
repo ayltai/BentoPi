@@ -1,4 +1,4 @@
 autopep8==2.3.2
-fastapi-cli[standard-no-fastapi-cloud-cli]==0.0.32
+fastapi-cli[standard-no-fastapi-cloud-cli]==0.0.34
 pycodestyle==2.15.0
-pylint==4.1.3
+pylint==4.1.4
