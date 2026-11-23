@@ -4,8 +4,8 @@ export const SCREEN_WIDTH   : number = 480;
 export const SCREEN_HEIGHT  : number = 320;
 export const TOP_BAR_HEIGHT : number = 32;
 
-export const API_ENDPOINT : string = `http://${window.location.hostname}:8000`;
-export const WS_ENDPOINT  : string = `ws://${window.location.hostname}:8000/ws`;
+export const API_ENDPOINT : string = `http://192.168.68.177:8000`;
+export const WS_ENDPOINT  : string = `ws://192.168.68.177:8000/ws`;
 
 export const API_MAX_RETRIES : number = 5;
 

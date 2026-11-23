@@ -1,5 +1,5 @@
 import { Descriptions, Select, Typography, } from 'antd';
-import { useEffect, } from 'react';
+import { useEffect, useId, } from 'react';
 import { useTranslation, } from 'react-i18next';
 
 import { useGetCpuFrequencyQuery, useGetCpuTemperatureQuery, useGetCpuVoltageQuery, useGetDiskTotalQuery, useGetDiskUsageQuery, useGetMemoryTotalQuery, useGetMemoryUsageQuery, } from '../apis';
@@ -10,6 +10,8 @@ import { handleError, } from '../utils';
 
 export const SystemScreen = () => {
     const { track, } = useAppSelector(state => state.alarm);
+
+    const alarmTrackId = useId();
 
     const { data : temperatureData, error : temperatureError, } = useGetCpuTemperatureQuery(undefined, {
         pollingInterval : INTERVAL_SYSTEM_UPDATE,
@@ -135,9 +137,10 @@ export const SystemScreen = () => {
                     ),
                 }, {
                     key      : 'alarm_track',
-                    label    : t('label_system_alarm_sound'),
+                    label    : <label htmlFor={alarmTrackId}>{t('label_system_alarm_sound')}</label>,
                     children : (
                         <Select
+                            id={alarmTrackId}
                             style={{
                                 width : 240,
                             }}
