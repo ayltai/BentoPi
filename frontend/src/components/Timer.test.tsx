@@ -36,4 +36,29 @@ describe('timer dial', () => {
         );
         expect(view.getByText('1:00')).not.toHaveClass('timer-pulse');
     });
+
+    it('keeps tick labels consistent and scales them for longer durations', () => {
+        const view = render(
+            <Timer
+                initialDurationMs={30 * 60_000}
+                remainingDurationMs={30 * 60_000}
+                isRunning={false}
+                locale='en-GB' />
+        );
+        const labels = () => Array.from(view.container.querySelectorAll<SVGTextElement>('.timer-ring-label'));
+        const shortLabelSize = parseFloat(labels()[0].style.fontSize);
+
+        view.rerender(
+            <Timer
+                initialDurationMs={120 * 60_000}
+                remainingDurationMs={120 * 60_000}
+                isRunning={false}
+                locale='en-GB' />
+        );
+
+        expect(view.getByText('120')).toBeInTheDocument();
+        const longLabelSizes = labels().map(label => parseFloat(label.style.fontSize));
+        expect(new Set(longLabelSizes).size).toBe(1);
+        expect(longLabelSizes[0]).toBeLessThan(shortLabelSize);
+    });
 });

@@ -46,6 +46,7 @@ export const Timer = ({
     const tickValues = Array.from({
         length : Math.floor(durationMinutes / tickStep),
     }, (_, index) => (index + 1) * tickStep);
+    const tickLabelSize = `${Math.max(0.3, 1 / Math.max(2, tickNumbers.format(tickValues.at(-1) ?? 0).length))}rem`;
 
     return (
         <div className='timer-dial'>
@@ -94,14 +95,17 @@ export const Timer = ({
                         <g key={value}>
                             <line
                                 className='timer-ring-tick'
-                                x1={50 + horizontal * 42}
-                                y1={50 + vertical * 42}
+                                x1={50 + horizontal * 41}
+                                y1={50 + vertical * 41}
                                 x2={50 + horizontal * 44}
                                 y2={50 + vertical * 44} />
                             <text
                                 className='timer-ring-label'
-                                x={50 + horizontal * 38}
-                                y={50 + vertical * 38}
+                                style={{
+                                    fontSize : tickLabelSize,
+                                }}
+                                x={50 + horizontal * 34}
+                                y={50 + vertical * 34}
                                 textAnchor='middle'
                                 dominantBaseline='central'>
                                 {tickNumbers.format(value)}
@@ -116,7 +120,7 @@ export const Timer = ({
                 <span
                     className={lastMinutePulse ? 'timer-remaining timer-pulse' : 'timer-remaining'}
                     style={{
-                        '--timer-characters' : Math.max(8, remaining.length),
+                        '--timer-characters' : Math.max(8, remaining.length + 2),
                     } as CSSProperties}>
                     {remaining}
                 </span>
